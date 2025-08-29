@@ -38,6 +38,7 @@ library(tidyverse)
 library(rio)
 library(here)
 library(readepi)
+library(dbplyr)
 ```
 
 ::::::::::::::::::: checklist
@@ -161,7 +162,7 @@ La lecture de données directement à partir d'une base de données permet d'opt
 Les systèmes de gestion de bases de données relationnelles (SGBDR) présentent également l'avantage de permettre à plusieurs utilisateurs d'accéder, de stocker et d'analyser simultanément différentes parties de l'ensemble de données, sans devoir transférer des fichiers individuels, ce qui rendrait très difficile le suivi de la version la plus à jour.
 
 :::::::::::::
-<!--
+
 ### 1. Etablir la connection à une base de données
 
 Vous pouvez utiliser la fonction `readepi::login()` pour établir une connection avec la base de données comme illuster ci-dessous.
@@ -169,7 +170,7 @@ Vous pouvez utiliser la fonction `readepi::login()` pour établir une connection
 
 ``` r
 # etablir la connection avec la base de donnees
-rdbms_login <- login(
+rdbms_login <- readepi::login(
   from = "mysql-rfam-public.ebi.ac.uk",
   type = "MySQL",
   user_name = "rfamro",
@@ -180,6 +181,28 @@ rdbms_login <- login(
 )
 ```
 
+``` output
+✔ Logged in successfully!
+```
+
+``` r
+rdbms_login
+```
+
+``` output
+<Pool> of MySQLConnection objects
+  Objects checked out: 0
+  Available in pool: 1
+  Max size: Inf
+  Valid: TRUE
+```
+
+:::::::::::::: callout
+
+Dans cet exemple, l’accès peut être limité par des restrictions réseau organisationnelles, mais il devrait fonctionner normalement sur les réseaux domestiques
+
+::::::::::::::
+
 ### 2. Accéder á la liste des tables de la base de données
 
 Vous pouvez accéder à la liste des noms de tables qui existent dans une base de données en utilisant la function `readepi::show_tables()`.
@@ -187,9 +210,14 @@ Vous pouvez accéder à la liste des noms de tables qui existent dans une base d
 
 ``` r
 # obtenir la liste des tables dans la base de donnees
-tables <- show_tables(login = rdbms_login)
+tables <- readepi::show_tables(login = rdbms_login)
+
 tables
 ```
+
+Dans un cadre de base de données, vous pouvez avoir plusieurs tables.  
+Chaque table peut correspondre à une `entité` spécifique (par ex. patients, unités de soins, emplois).  
+Toutes les tables sont liées par un identifiant commun ou une `clé primaire`.
 
 ### 3. Lire les données d'une table dans une base de données
 
@@ -204,95 +232,54 @@ dat <- readepi::read_rdbms(
 )
 
 # lire les donnees de la table 'author' en utilisant une liste de parametres
-dat <- read_rdbms(
+dat <- readepi::read_rdbms(
   login = rdbms_login,
   query = list(table = "author", fields = NULL, filter = NULL)
 )
 ```
--->
 
-Le morceau de code suivant montre en quatre étapes comment créer une base de données SQLite temporaire en mémoire, stocker le fichier `ebola_confirmed` en tant que table, puis la lire :
-
-### 1. Connectez-vous à une base de données
-
-Tout d'abord, nous établissons une connexion avec une base de données SQLite créée sur notre machine et stockée en mémoire locale avec `DBI::dbConnect()`.
+Alternativement, nous pouvons lire les données de la table `author` en utilisant `dplyr::tbl()`.
 
 
 ``` r
-library(DBI)
-library(RSQLite)
+# lire les donnees de la table 'author' en utilisant une requete SQL
+dat <- rdbms_login %>%
+  dplyr::tbl(from = "author") %>%
+  dplyr::filter(initials == "A") %>%
+  dplyr::arrange(desc(author_id))
 
-db_connection <- DBI::dbConnect(
-  drv = RSQLite::SQLite(),
-  dbname = ":memory:"
-)
+dat
 ```
 
-::::::::::::::::: callout
-
-Une connexion réelle à une base de données SQLite externe pourrait ressembler à ceci (bien que SQLite ne nécessite normalement pas de `host`, `user` ou `password`; cet exemple est plus typique pour MySQL/PostgreSQL) :
-
-```r
-db_connection <- DBI::dbConnect(
-  RSQLite::SQLite(), 
-  host = "database.epiversetrace.com",
-  user = "juanito",
-  password = epiversetrace::askForPassword("Database password")
-)
-```
-
-:::::::::::::::::
-
-### 2. Écrire un dataframe local en tant que table dans la base de données
-
-Ensuite, nous pouvons écrire `ebola_confirmed` dans une table nommée `cases` dans la base de données à l'aide de `DBI::dbWriteTable()` :
-
-
-``` r
-DBI::dbWriteTable(
-  conn = db_connection,
-  name = "cases",
-  value = ebola_confirmed
-)
-```
-
-Dans un contexte de base de données, vous pouvez avoir plusieurs tables. Chaque table peut représenter une `entity` (par exemple, les patients, les unités de soins, les emplois). Toutes les tables peuvent être reliées par un identifiant commun ou `primary key`.
-
-### 3. Lire les données d'une table dans une base de données
-
-<!-- Subsequently, we reads the data from the `cases` table using `DBI::dbReadTable()`. -->
-
-<!-- ```{r,warning=FALSE,message=FALSE} -->
-<!-- # Read data from the 'cases' table -->
-<!-- extracted_data <- DBI::dbReadTable( -->
-<!--   conn = db_connection, -->
-<!--   name = "cases" -->
-<!-- ) -->
-<!-- ``` -->
-
-Ensuite, nous lisons les données de la table `cases` en utilisant `dplyr::tbl()`.
-
-
-``` r
-mytable_db <- dplyr::tbl(src = db_connection, "cases")
+``` output
+# Source:     SQL [?? x 6]
+# Database:   mysql 5.6.36-log [@mysql-rfam-public.ebi.ac.uk:/Rfam]
+# Ordered by: desc(author_id)
+  author_id name           last_name    initials orcid                 synonyms
+      <int> <chr>          <chr>        <chr>    <chr>                 <chr>   
+1        46 Roth A         Roth         A        ""                    ""      
+2        42 Nahvi A        Nahvi        A        ""                    ""      
+3        32 Machado Lima A Machado Lima A        ""                    ""      
+4        31 Levy A         Levy         A        ""                    ""      
+5        27 Gruber A       Gruber       A        "0000-0003-1219-4239" ""      
+6        13 Chen A         Chen         A        ""                    ""      
+7         6 Bateman A      Bateman      A        "0000-0002-6982-4660" ""      
 ```
 
 Si nous appliquons `{dplyr}` à cette base de données SQLite, ces verbes seront traduits en requêtes SQL.
 
 
 ``` r
-mytable_db %>%
-  dplyr::filter(confirm > 50) %>%
-  dplyr::arrange(desc(confirm)) %>%
+dat %>%
   dplyr::show_query()
 ```
 
 ``` output
 <SQL>
-SELECT `cases`.*
-FROM `cases`
-WHERE (`confirm` > 50.0)
-ORDER BY `confirm` DESC
+SELECT `author`.*
+FROM `author`
+WHERE (`initials` = 'A')
+ORDER BY `author_id` DESC
 ```
 
 ### 4. Extraire des données de la base de données
@@ -301,29 +288,26 @@ Utiliser `dplyr::collect()` pour forcer le calcul d'une requête de base de donn
 
 
 ``` r
-extracted_data <- mytable_db %>%
-  dplyr::filter(confirm > 50) %>%
-  dplyr::arrange(desc(confirm)) %>%
+dat %>%
   dplyr::collect()
 ```
 
-L'objet `extracted_data` représente l'extrait, idéalement après avoir spécifié des requêtes qui réduisent sa taille.
-
-
-``` r
-extracted_data
-```
-
 ``` output
-# A tibble: 3 × 4
-   year month   day confirm
-  <int> <int> <int>   <int>
-1  2014     9    16      84
-2  2014     9    15      68
-3  2014     9    17      56
+# A tibble: 7 × 6
+  author_id name           last_name    initials orcid                 synonyms
+      <int> <chr>          <chr>        <chr>    <chr>                 <chr>   
+1        46 Roth A         Roth         A        ""                    ""      
+2        42 Nahvi A        Nahvi        A        ""                    ""      
+3        32 Machado Lima A Machado Lima A        ""                    ""      
+4        31 Levy A         Levy         A        ""                    ""      
+5        27 Gruber A       Gruber       A        "0000-0003-1219-4239" ""      
+6        13 Chen A         Chen         A        ""                    ""      
+7         6 Bateman A      Bateman      A        "0000-0002-6982-4660" ""      
 ```
 
-:::::::::::::::::::::: callout
+Idéalement, après avoir spécifié un ensemble de requêtes, nous pouvons réduire la taille du jeu de données d’entrée à utiliser dans l’environnement de notre session R.
+
+:::::::::::::::::::::: discussion
 
 ### Exécutez des requêtes SQL dans R à l'aide de dbplyr
 
@@ -331,16 +315,70 @@ Entraînez-vous à faire des requêtes SQL sur des bases de données relationnel
 
 Vous pouvez également consulter le package `{dbplyr}` en R. Pour un tutoriel pas à pas sur SQL, nous recommandons le [tutoriel sur la gestion des données avec SQL pour écologistes](https://datacarpentry.org/sql-ecology-lesson/), qui montre l'utilisation de `{dplyr}` avec SQL.
 
-::::::::::::::::::::::
-
-### 5. Fermez la connexion à la base de données
-
-Enfin, nous pouvons fermer la connexion à la base de données avec `dbDisconnect()`.
+::::::::::::::: hint
 
 
 ``` r
-DBI::dbDisconnect(conn = db_connection)
+# SELECT FEW COLUMNS FROM ONE TABLE AND LEFT JOIN WITH ANOTHER TABLE
+author <- rdbms_login %>%
+  dplyr::tbl(from = "author") %>%
+  dplyr::select(author_id, name)
+
+family_author <- rdbms_login %>%
+  dplyr::tbl(from = "family_author") %>%
+  dplyr::select(author_id, rfam_acc)
+
+dplyr::left_join(author, family_author, keep = TRUE) %>%
+  dplyr::show_query()
 ```
+
+``` output
+Joining with `by = join_by(author_id)`
+```
+
+``` output
+<SQL>
+SELECT
+  `author`.`author_id` AS `author_id.x`,
+  `name`,
+  `family_author`.`author_id` AS `author_id.y`,
+  `rfam_acc`
+FROM `author`
+LEFT JOIN `family_author`
+  ON (`author`.`author_id` = `family_author`.`author_id`)
+```
+
+``` r
+dplyr::left_join(author, family_author, keep = TRUE) %>%
+  dplyr::collect()
+```
+
+``` output
+Joining with `by = join_by(author_id)`
+```
+
+``` output
+# A tibble: 4,874 × 4
+   author_id.x name         author_id.y rfam_acc
+         <int> <chr>              <int> <chr>   
+ 1          44 Osuch I               44 RF01571 
+ 2           2 Argasinska J           2 RF02588 
+ 3           2 Argasinska J           2 RF02587 
+ 4           2 Argasinska J           2 RF02586 
+ 5           2 Argasinska J           2 RF02585 
+ 6           2 Argasinska J           2 RF02549 
+ 7           8 Boursnell C            8 RF02002 
+ 8          56 Weinberg Z            56 RF01741 
+ 9          39 Moxon SJ              39 RF00496 
+10          39 Moxon SJ              39 RF00469 
+# ℹ 4,864 more rows
+```
+
+
+:::::::::::::::
+
+::::::::::::::::::::::
+
 
 
 ## Lecture de données à partir de SIS
@@ -363,31 +401,61 @@ dhis2_login <- readepi::login(
   user_name = "test",
   password = "Gambia@123"
 )
+```
 
+``` output
+✔ Logged in successfully!
+```
+
+``` r
 # obtenir les noms et identifiants des programmes
 programs <- readepi::get_programs(login = dhis2_login)
 
 # obtenir les noms et identifiants des unites organisationnelles
 org_units <- get_organisation_units(login = dhis2_login)
+```
 
+
+``` r
 # importer les donnees a partir de DHIS2 en utilisant les identifiants
 data <- readepi::read_dhis2(
   login = dhis2_login,
   org_unit = "GcLhRNAFppR",
   program = "E5IUQuHg3Mg"
 )
+
+# importer les donnees a partir de DHIS2 en utilisant les noms
+data <- readepi::read_dhis2(
+  login = dhis2_login,
+  org_unit = "Keneba",
+  program = "Child Registration & Treatment "
+)
+
+tibble::as_tibble(data)
 ```
 
-<!--
-<!--` ` ` r
-<!--# importer les donnees a partir de DHIS2 en utilisant les noms
-<!--data <- readepi::read_dhis2(
-<!--  login = dhis2_login,
-<!--  org_unit = "Keneba",
-<!--  program = "Child Registration & Treatment "
-<!--)
-<!--` ` `
--->
+``` output
+# A tibble: 1,116 × 69
+   event   tracked_entity org_unit ` SMC-CR Scan QR Code` SMC-CR Did the child…¹
+   <chr>   <chr>          <chr>    <chr>                  <chr>                 
+ 1 bgSDQb… yv7MOkGD23q    Keneba   SMC23-0510989          1                     
+ 2 y4MKmP… nibnZ8h0Nse    Keneba   SMC2021-018089         1                     
+ 3 yK7VG3… nibnZ8h0Nse    Keneba   SMC2021-018089         1                     
+ 4 EmNflz… nibnZ8h0Nse    Keneba   SMC2021-018089         1                     
+ 5 UF96ms… nibnZ8h0Nse    Keneba   SMC2021-018089         1                     
+ 6 guQTwc… FomREQ2it4n    Keneba   SMC23-0510012          1                     
+ 7 jbkRkL… FomREQ2it4n    Keneba   SMC23-0510012          1                     
+ 8 AEeype… FomREQ2it4n    Keneba   SMC23-0510012          1                     
+ 9 R30SPs… E5oAWGcdFT4    Keneba   koika-smc-22897        1                     
+10 nr03Qy… E5oAWGcdFT4    Keneba   koika-smc-22897        1                     
+# ℹ 1,106 more rows
+# ℹ abbreviated name: ¹​`SMC-CR Did the child  previously received a card?`
+# ℹ 64 more variables: `SMC-CR Child First Name1` <chr>,
+#   `SMC-CR Child Last Name` <chr>, `SMC-CR Date of Birth` <chr>,
+#   `SMC-CR Select Age Category  ` <chr>, `SMC-CR Child gender1` <chr>,
+#   `SMC-CR Mother/Person responsible full name` <chr>,
+#   `SMC-CR Mother/Person responsible phone number1` <chr>, …
+```
 
 Il est important de savoir que toutes les unités organisationnelles (structures sanitaires) ne sont pas enregistrées pour un programme spécifique. Pour connaître les unités organisationnelles qui exécutent un programme particulier, utilisez la fonction `get_program_org_units()` comme illustré dans l'exemple ci-dessous.
 
@@ -399,6 +467,25 @@ target_org_units <- readepi::get_program_org_units(
   program = "E5IUQuHg3Mg",
   org_units = org_units
 )
+
+tibble::as_tibble(target_org_units)
+```
+
+``` output
+# A tibble: 26 × 3
+   org_unit_ids levels            org_unit_names
+   <chr>        <chr>             <chr>         
+ 1 UrLrbEiWk3J  Town/Village_name Sare Sibo     
+ 2 wlVsFVeHSTx  Town/Village_name Jawo Kunda    
+ 3 kp0ZYUEqJE8  Town/Village_name Chewal        
+ 4 Wr3htgGxhBv  Town/Village_name Madinayel     
+ 5 psyHoqeN2Tw  Town/Village_name Bolibanna     
+ 6 MGBYonFM4y3  Town/Village_name Sare Mala     
+ 7 GcLhRNAFppR  Town/Village_name Keneba        
+ 8 y1Z3KuvQyhI  Town/Village_name Brikama       
+ 9 W3vH9yBUSei  Town/Village_name Gidda         
+10 ISbNWYieHY8  Town/Village_name Song Kunda    
+# ℹ 16 more rows
 ```
 
 
@@ -419,6 +506,27 @@ disease_names <- readepi::sormas_get_diseases(
   password = "Lk5R7JXeZSEc"
 )
 
+tibble::as_tibble(disease_names)
+```
+
+``` output
+# A tibble: 65 × 2
+   disease            active
+   <chr>              <chr> 
+ 1 AFP                TRUE  
+ 2 CHOLERA            TRUE  
+ 3 CONGENITAL_RUBELLA TRUE  
+ 4 CSM                TRUE  
+ 5 DENGUE             TRUE  
+ 6 EVD                TRUE  
+ 7 GUINEA_WORM        TRUE  
+ 8 LASSA              TRUE  
+ 9 MEASLES            TRUE  
+10 MONKEYPOX          TRUE  
+# ℹ 55 more rows
+```
+
+``` r
 # obtenir les donnees de tous les cas de COVID-19
 covid_cases <- readepi::read_sormas(
   base_url = "https://demo.sormas.org/sormas-rest",
@@ -426,6 +534,23 @@ covid_cases <- readepi::read_sormas(
   password = "Lk5R7JXeZSEc",
   disease = "coronavirus"
 )
+
+tibble::as_tibble(covid_cases)
+```
+
+``` output
+# A tibble: 6 × 16
+  case_id    person_id date_onset date_admission case_origin case_status outcome
+  <chr>      <chr>     <date>     <date>         <chr>       <chr>       <chr>  
+1 QFC5QI-GC… XNQZBX-W… NA         NA             IN_COUNTRY  NOT_CLASSI… NO_OUT…
+2 UOZL3G-4M… UGBWTB-B… 2025-05-27 NA             IN_COUNTRY  SUSPECT     NO_OUT…
+3 SRO72L-LY… UOAAIQ-Z… NA         NA             IN_COUNTRY  NOT_CLASSI… NO_OUT…
+4 XV7RQ3-ZY… XP2SJX-W… 2025-07-03 NA             IN_COUNTRY  NOT_CLASSI… NO_OUT…
+5 SMUIMI-ZI… TMWNQS-O… NA         NA             IN_COUNTRY  CONFIRMED   NO_OUT…
+6 SZ3GHH-RJ… V2XMXK-K… NA         NA             IN_COUNTRY  NOT_CLASSI… NO_OUT…
+# ℹ 9 more variables: sex <chr>, date_of_birth <chr>, country <chr>,
+#   city <chr>, latitude <chr>, longitude <chr>, contact_id <chr>,
+#   date_last_contact <date>, Ct_values <chr>
 ```
 
 ::::::::::::::::::::::::::::::::::::: keypoints
