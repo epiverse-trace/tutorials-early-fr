@@ -4480,7 +4480,7 @@
       "RemoteUsername": "epiverse-trace",
       "RemotePkgRef": "epiverse-trace/readepi@readepi_no_his_spc_deps",
       "RemoteRef": "readepi_no_his_spc_deps",
-      "RemoteSha": "40a694364c2908d2910ab43cc0c0fc86d52473ac"
+      "RemoteSha": "94d0ce872361a231a5c7867c6bccbeaebcd55038"
     },
     "readr": {
       "Package": "readr",

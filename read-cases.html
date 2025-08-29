@@ -529,7 +529,7 @@ importez-le dans votre environnement de travail.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1"> Donner un indice </h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
 <div class="accordion-body">
 <p>Vous pouvez consulter la <a href="https://gesistsa.github.io/rio/#supported-file-formats" class="external-link">liste
 complète des formats de fichiers pris en charge</a> sur le site web de
@@ -551,7 +551,7 @@ fonction ci-dessous :</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Montrer la solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -772,9 +772,9 @@ local.</p>
 <p>Idéalement, après avoir spécifié un ensemble de requêtes, nous
 pouvons réduire la taille du jeu de données d’entrée à utiliser dans
 l’environnement de notre session R.</p>
-<div id="exécutez-des-requêtes-sql-dans-r-à-laide-de-dbplyr" class="callout discussion">
+<div id="exécutez-des-requêtes-sql-dans-r-à-laide-de-dbplyr" class="callout challenge">
 <div class="callout-square">
-<i class="callout-icon" data-feather="message-circle"></i>
+<i class="callout-icon" data-feather="zap"></i>
 </div>
 <div id="exécutez-des-requêtes-sql-dans-r-à-laide-de-dbplyr" class="callout-inner">
 <h3 class="callout-title">Exécutez des requêtes SQL dans R à l’aide de dbplyr</h3>
@@ -788,12 +788,15 @@ session locale avec <code>dplyr::collect()</code> !</p>
 R. Pour un tutoriel pas à pas sur SQL, nous recommandons le <a href="https://datacarpentry.org/sql-ecology-lesson/" class="external-link">tutoriel sur la
 gestion des données avec SQL pour écologistes</a>, qui montre
 l’utilisation de <a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a> avec SQL.</p>
+</div>
+</div>
+</div>
 <div id="accordionHint2" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint2" aria-expanded="false" aria-controls="collapseHint2">
   <h4 class="accordion-header" id="headingHint2"> Donner un indice </h4>
 </button>
-<div id="collapseHint2" class="accordion-collapse collapse" data-bs-parent="#accordionHint2" aria-labelledby="headingHint2">
+<div id="collapseHint2" class="accordion-collapse collapse" aria-labelledby="headingHint2" data-bs-parent="#accordionHint2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -858,9 +861,6 @@ LEFT JOIN `family_author`
  9          39 Moxon SJ              39 RF00496
 10          39 Moxon SJ              39 RF00469
 # ℹ 4,864 more rows</code></pre>
-</div>
-</div>
-</div>
 </div>
 </div>
 </div>
