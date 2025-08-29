@@ -330,85 +330,86 @@ any links that you are not going to use.
       L'emploi du temps réel peut légèrement varier selon les sujets et les exercices choisis par l'instructeur.
       </p>
       </section><section id="setup"><section><h2 class="section-heading" id="motivation">Motivation<a class="anchor" aria-label="anchor" href="#motivation"></a></h2>
-<hr class="half-width"><p><strong>Éclosions</strong> de maladies infectieuses peuvent
+<hr class="half-width"><p><strong>Des épidémies</strong> de maladies infectieuses peuvent
 apparaître à cause de différents agents pathogènes et dans différents
-contextes, mais elles conduisent généralement à des questions de santé
-publique similaires, allant de la compréhension des schémas de
-transmission et de gravité à l’examen de l’effet des mesures de contrôle
-(<a href="https://royalsocietypublishing.org/doi/10.1098/rstb.2016.0371#d1e605" class="external-link">Cori
+contextes. Cependant, elles aboutissent généralement à des questions de
+santé publique similaires, allant de la compréhension des dynamiques de
+transmission et de la gravité clinique à l’examen de l’effet des mesures
+de contrôle (<a href="https://royalsocietypublishing.org/doi/10.1098/rstb.2016.0371#d1e605" class="external-link">Cori
 et al. 2017</a>). Nous pouvons relier chacune de ces questions de santé
-publique à une série de tâches d’analyse des données relatives aux
-épidémies. Plus ces tâches sont efficaces et fiables, plus nous pouvons
-répondre rapidement et avec précision aux questions sous-jacentes.</p>
-<p>Epiverse-TRACE vise à fournir un écosystème logiciel pour <a href="reference.html#outbreakanalytics"><strong>l’analyse des
-épidémies</strong></a> grâce à des logiciels intégrés, généralisables et
-évolutifs pilotés par la communauté. Nous soutenons le développement de
-nouveaux progiciels R, nous aidons à relier les outils existants pour
-les rendre plus conviviaux et nous contribuons à une communauté de
-pratique composée d’épidémiologistes de terrain, de scientifiques des
-données, de chercheurs de laboratoire, d’analystes d’agences de santé,
-d’ingénieurs en logiciel et bien d’autres encore.</p>
-<div class="section level3">
+publique à une série de tâches d’analyse des données
+épidémidémiologiques. L’efficacité et la fiabilité de ces tâches peuvent
+améliorer la rapidité et la précision de la réponse aux questions
+sous-jacentes.</p>
+<p>Epiverse-TRACE vise à fournir un écosystème logiciel pour
+<strong>l’analyse des épidémies</strong>, avec des logiciels
+communautaires intégrés, généralisables et évolutifs. Nous:</p>
+<ul><li>soutenons le développement de nouveaux packages R,</li>
+<li>facilitons l’interconnexion des outils existants pour les rendre
+plus conviviaux et</li>
+<li>contribuons à une communauté de pratique regroupant épidémiologistes
+de terrain, data scientists, chercheurs en laboratoire, analystes
+d’agences de santé, ingénieurs logiciels, etc.</li>
+</ul><div class="section level3">
 <h3 id="tutoriels-epiverse-trace">Tutoriels Epiverse-TRACE<a class="anchor" aria-label="anchor" href="#tutoriels-epiverse-trace"></a></h3>
-<p>Nos tutoriels sont construits autour d’un pipeline d’analyse
-d’épidémies divisé en trois étapes : <strong>Tâches
-préliminaires</strong>, <strong>Tâches intermédiaires</strong> et
-<strong>Tâches tardives</strong>. Les résultats des tâches accomplies au
-cours des étapes précédentes alimentent généralement les tâches requises
-pour les étapes ultérieures.</p>
-<figure><img src="https://epiverse-trace.github.io/task_pipeline-minimal.svg" alt="Aperçu des thèmes abordés dans le cadre du tutorat" class="figure mx-auto d-block"><div class="figcaption">Aperçu des thèmes abordés dans le cadre du
-tutorat</div>
-</figure><p>Chaque tâche a son site web de tutorat et chaque site web de tutorat
-consiste en un ensemble d’épisodes couvrant différents sujets.</p>
+<p>Nos tutoriels s’articulent autour d’un pipeline d’analyse de données
+épidémiologiques divisé en trois étapes: tâches initiales (au début de
+l’épidémie), tâches intermédiaires (quelques semaine après le début de
+l’épidémie) et tâches tardives (en pleine épidémie). Les résultats des
+tâches réalisées au début de l’épidémie servent généralement de données
+d’entrée pour les tâches requises au cours des étapes suivantes.</p>
+<figure><img src="https://epiverse-trace.github.io/task_pipeline-minimal.svg" alt="Aperçu des thèmes abordés dans le cadre de ce tutoriel" class="figure mx-auto d-block"><div class="figcaption">Aperçu des thèmes abordés dans le cadre de ce
+tutoriel</div>
+</figure><p>Nous avons conçu un site Web pour chaque tâche de ce tutoriel. Chaque
+site Web est composé d’un ensemble d’épisodes couvrant différents
+sujets.</p>
 <table class="table"><colgroup><col width="38%"><col width="41%"><col width="20%"></colgroup><thead><tr class="header"><th><a href="https://epiverse-trace.github.io/tutorials-early/" class="external-link">Tutoriels pour
 les premières tâches ➠</a></th>
 <th><a href="https://epiverse-trace.github.io/tutorials-middle" class="external-link">Didacticiels
 pour les tâches intermédiaires ➠</a></th>
 <th><a href="https://epiverse-trace.github.io/tutorials-late/" class="external-link">Travaux
 dirigés tardifs ➠</a></th>
-</tr></thead><tbody><tr class="odd"><td>Lire et nettoyer les données de l’affaire, et établir une liste de
-contrôle</td>
+</tr></thead><tbody><tr class="odd"><td>Lire et nettoyer les données épidémiologiques, et concevoir un
+object de la classe {linelist}</td>
 <td>Analyse et prévision en temps réel</td>
 <td>Modélisation de scénarios</td>
-</tr><tr class="even"><td>Lire, nettoyer et valider les données des cas, convertir les données
-de la liste des lignes en incidence pour la visualisation.</td>
-<td>Accéder aux distributions des retards et estimer les paramètres de
-transmission, prévoir les cas, estimer la gravité et la
-superposition.</td>
+</tr><tr class="even"><td>Lire, nettoyer et valider les données épidémiologiques, convertir un
+linelist en incidence pour la visualisation.</td>
+<td>Accéder aux distributions des délais épidémiologiques et estimer les
+paramètres de transmission, prédire le nombre de cas, estimer la gravité
+clinique et la super-propagation.</td>
 <td>Simulez la propagation de la maladie et étudiez les
 interventions.</td>
-</tr></tbody></table><p>Chaque épisode contient :</p>
+</tr></tbody></table><p>Chaque épisode contient les sections suivantes:</p>
 <ul><li>
-<strong>Vue d’ensemble</strong> Cet épisode décrit les questions
-auxquelles il sera répondu et les objectifs de l’épisode.</li>
+<strong>Vue d’ensemble:</strong> décrit les questions auxquelles
+nous allons répondre et les objectifs de l’épisode.</li>
 <li>
-<strong>Conditions préalables</strong> La description des
-épisodes/paquets qui doivent idéalement être couverts avant l’épisode en
-cours.</li>
+<strong>Conditions préalables:</strong> décrit les épisodes qui
+doivent idéalement être complétés au préalable. Elle décrit aussi les
+librairies qui vont être utilisées au cours de l’épisode.</li>
 <li>
-<strong>Exemple de code R</strong> Le site web de la Commission
-européenne contient des exemples de code R afin que vous puissiez
-travailler sur les épisodes sur votre propre ordinateur.</li>
+<strong>Exemple de code R:</strong> des exemples de code R afin que
+vous puissiez reproduire les analyses sur votre propre ordinateur.</li>
 <li>
-<strong>Défis</strong> Les défis : des défis à relever pour tester
-votre compréhension.</li>
+<strong>Défis:</strong> des défis à relever pour tester votre
+compréhension.</li>
 <li>
-<strong>Explicatifs</strong> Les Explicateurs sont des boîtes qui
-vous permettent de mieux comprendre les concepts mathématiques et de
-modélisation.</li>
+<strong>Explicatifs:</strong> des boîtes qui vous permettent de
+mieux comprendre les concepts mathématiques et de modélisation.</li>
 </ul><p>Consultez également le site <a href="./reference.html">glossaire</a>
 pour connaître les termes qui ne vous sont pas familiers.</p>
 </div>
 <div class="section level3">
-<h3 id="paquets-epiverse-trace-r">Paquets Epiverse-TRACE R<a class="anchor" aria-label="anchor" href="#paquets-epiverse-trace-r"></a></h3>
-<p>Notre stratégie consiste à incorporer progressivement des <strong>R
-spécial</strong> dans un pipeline d’analyse traditionnel. Ces progiciels
-devraient combler les lacunes dans les tâches spécifiques à
-l’épidémiologie en réponse aux épidémies.</p>
-<figure><img src="../fig/pkgs-hexlogos-2.png" alt="Dans le cadre de l’analyse de l’épidémie de grippe aviaire, le R l’unité fondamentale du code partageable est le paquet. Un paquetage regroupe du code, des données, de la documentation et des tests et est facile à partager avec d’autres (Wickham et Bryan, 2023)" class="figure mx-auto d-block"><div class="figcaption">Dans le cadre de l’analyse de l’épidémie de
-grippe aviaire, le <strong>R</strong> l’unité fondamentale du code
-partageable est le <strong>paquet</strong>. Un paquetage regroupe du
-code, des données, de la documentation et des tests et est facile à
+<h3 id="les-packages-r-de-epiverse-trace">Les Packages R de Epiverse-TRACE<a class="anchor" aria-label="anchor" href="#les-packages-r-de-epiverse-trace"></a></h3>
+<p>Notre stratégie consiste à intégrer progressivement des
+<strong>packages R</strong> spécialisés à un pipeline traditionnel
+d’analyse de données. Ces librairies devraient combler les lacunes
+notées dans ces pipelines d’analyse épidémiologiques qui sont conçus en
+vue d’apporter des réponses aux épidémies.</p>
+<figure><img src="../../../episodes/fig/pkgs-hexlogos-2.png" alt="L’unité fondamentale de partage de code dans R est le package. Un package regroupe du code, des données, de la documentation et des tests et est facile à partager avec d’autres (Wickham et Bryan, 2023)" class="figure mx-auto d-block"><div class="figcaption">L’unité fondamentale de partage de code dans
+<strong>R</strong> est le <strong>package</strong>. Un package regroupe
+du code, des données, de la documentation et des tests et est facile à
 partager avec d’autres (<a href="https://r-pkgs.org/introduction.html" class="external-link">Wickham et Bryan,
 2023</a>)</div>
 </figure><div id="prereq1" class="callout prereq">
@@ -418,24 +419,26 @@ partager avec d’autres (<a href="https://r-pkgs.org/introduction.html" class="
 <div class="callout-inner">
 <h3 class="callout-title">Pré-requis</h3>
 <div class="callout-content">
-<p>Ce contenu suppose une connaissance intermédiaire de R. Ces tutoriels
+<p>Ce contenu suppose une connaissance intermédiaire de R. Ces épisodes
 sont pour vous si :</p>
 <ul><li>Vous savez lire des données dans R, les transformer et les
-remodeler, et créer une grande variété de graphiques.</li>
+reformater, et créer une variété de graphiques.</li>
 <li>Vous connaissez les fonctions de <a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a>,
 <a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a> et <a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a>
 </li>
-<li>Vous pouvez utiliser le tube magrittr <code>%&gt;%</code> et/ou le
-tuyau natif <code>|&gt;</code>.</li>
-</ul><p>Nous attendons des apprenants qu’ils soient familiarisés avec les
+<li>Vous pouvez utiliser les opérateurs pipe de <a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a>
+(<code>%&gt;%</code>) et/ou celui de la librairie de base de R
+(<code>|&gt;</code>).</li>
+</ul><p>Nous supposons que les apprenants se sont familiarisés avec les
 concepts de base de la statistique, des mathématiques et de la théorie
-des épidémies, mais PAS avec une connaissance intermédiaire ou experte
-de la modélisation.</p>
+des épidémies, mais NE DISPOSENT PAS FORCÉMENT de connaissances
+intermédiaires ou expertes en modélisation mathématique des maladies
+infectieuses.</p>
 </div>
 </div>
 </div>
 </div>
-</section><section><h2 class="section-heading" id="configuration-du-logiciel">Configuration du logiciel<a class="anchor" aria-label="anchor" href="#configuration-du-logiciel"></a></h2>
+</section><section><h2 class="section-heading" id="configuration-des-logiciels">Configuration des logiciels<a class="anchor" aria-label="anchor" href="#configuration-des-logiciels"></a></h2>
 <hr class="half-width"><p>Suivez ces deux étapes :</p>
 <div class="section level3">
 <h3 id="installez-ou-mettez-à-jour-r-et-rstudio">1. Installez ou mettez à jour R et RStudio<a class="anchor" aria-label="anchor" href="#installez-ou-mettez-%C3%A0-jour-r-et-rstudio"></a></h3>
@@ -456,28 +459,27 @@ d’utiliser RStudio pour interagir avec R.</li>
 <h3 class="callout-title">Déjà installé ?</h3>
 <div class="callout-content">
 <p>Ne perdez pas de temps : C’est le moment idéal pour vous assurer que
-votre installation R est à jour.</p>
-<p>Ce tutoriel nécessite <strong>R version 4.0.0 ou
-ultérieure</strong>.</p>
+votre version de R est à jour.</p>
+<p>Ce tutoriel nécessite <strong>la version 4.0.0 de R ou des versions
+plus récentes</strong>.</p>
 </div>
 </div>
 </div>
 <p>Pour vérifier si votre version de R est à jour :</p>
-<ul><li><p>Dans RStudio, votre version de R sera imprimée en <a href="https://docs.posit.co/ide/user/ide/guide/code/console.html" class="external-link">la
-fenêtre de la console</a>. Ou exécutez
+<ul><li><p>Dans RStudio, votre version de R sera imprimée dans <a href="https://docs.posit.co/ide/user/ide/guide/code/console.html" class="external-link">la
+fenêtre de la console</a>. Vous pouvez également exécuter
 <code>sessionInfo()</code>.</p></li>
-<li>
-<p><strong>Pour mettre à jour R</strong> téléchargez et installez la
-dernière version à partir du site <a href="https://cran.rstudio.com/" class="external-link">site web du projet R</a> pour votre
-système d’exploitation.</p>
-<ul><li><p>Après l’installation d’une nouvelle version, vous devrez
-réinstaller tous vos paquets avec la nouvelle version.</p></li>
-<li><p>Pour Windows, l’option <a href="https://talgalili.github.io/installr/" class="external-link">installr</a> peut mettre à jour
-votre version de R et migrer votre bibliothèque de paquets.</p></li>
-</ul></li>
+<li><p><strong>Pour mettre à jour R</strong> téléchargez et installez la
+dernière version à partir du <a href="https://cran.rstudio.com/" class="external-link">site
+web du projet R</a> pour votre système d’exploitation.</p></li>
+<li><p>Après l’installation d’une nouvelle version, vous devrez
+réinstaller tous vos librairies avec la nouvelle version.</p></li>
+<li><p>Pour Windows, la librairie <a href="https://talgalili.github.io/installr/" class="external-link">installr</a> permet de
+mettre à jour votre version de R et migrer votre bibliothèque de
+librairies.</p></li>
 <li><p><strong>Pour mettre à jour RStudio</strong> ouvrez RStudio et
 cliquez sur <code>Help &gt; Check for Updates</code>. Si une nouvelle
-version est disponible, suivez les instructions suivantes instructions à
+version est disponible, suivez les instructions qui s’affichent à
 l’écran.</p></li>
 </ul><div id="vérifiez-régulièrement-les-mises-à-jour" class="callout">
 <div class="callout-square">
@@ -486,19 +488,19 @@ l’écran.</p></li>
 <div id="vérifiez-régulièrement-les-mises-à-jour" class="callout-inner">
 <h3 class="callout-title">Vérifiez régulièrement les mises à jour</h3>
 <div class="callout-content">
-<p>Bien que cela puisse paraître effrayant, c’est <strong>bien plus
-courant</strong> de rencontrer des problèmes dus à l’utilisation de
-versions obsolètes de R ou de paquets R. Il est donc recommandé de se
-tenir au courant des dernières versions de R, de RStudio et de tous les
-paquets que vous utilisez régulièrement.</p>
+<p>Bien que cela puisse paraître effrayant, il est <strong>plus
+courant</strong> de rencontrer des problèmes à cause de l’utilisation de
+versions obsolètes de R ou de librairies R. Il est donc recommandé de
+mettre à jour les versions de R, de RStudio et de tous les packages que
+vous utilisez régulièrement.</p>
 </div>
 </div>
 </div>
 </div>
 <div class="section level3">
-<h3 id="installez-les-paquets-r-requis">2. Installez les paquets R requis<a class="anchor" aria-label="anchor" href="#installez-les-paquets-r-requis"></a></h3>
+<h3 id="installez-les-librairies-r-requises">2. Installez les librairies R requises<a class="anchor" aria-label="anchor" href="#installez-les-librairies-r-requises"></a></h3>
 <p>Ouvrez RStudio et <strong>copiez et collez</strong> le morceau de
-code suivant dans la fenêtre <a href="https://docs.posit.co/ide/user/ide/guide/code/console.html" class="external-link">fenêtre
+code suivant dans la <a href="https://docs.posit.co/ide/user/ide/guide/code/console.html" class="external-link">fenêtre
 de la console</a> puis appuyez sur la touche <kbd>Entrer</kbd> (Windows
 et Linux) ou <kbd>Retour</kbd> (MacOS) pour exécuter la commande :</p>
 <div class="codewrapper sourceCode" id="cb1">
@@ -528,29 +530,25 @@ et Linux) ou <kbd>Retour</kbd> (MacOS) pour exécuter la commande :</p>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu">pkg_install</span><span class="op">(</span><span class="va">new_packages</span><span class="op">)</span></span></code></pre>
 </div>
 <p>Ces étapes d’installation peuvent vous demander
-<code>? Do you want to continue (Y/n)</code> écrire <code>Y</code> et
+<code>? Do you want to continue (Y/n)</code> écrivez <code>Y</code> et
 d’appuyer sur <kbd>Entrez</kbd>.</p>
 <div id="accordionSpoiler1" class="accordion spoiler-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button spoiler-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpoiler1" aria-expanded="false" aria-controls="collapseSpoiler1">
   <h3 class="accordion-header" id="headingSpoiler1">
   <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div>
-  obtenez-vous une erreur avec les paquets epiverse-trace ?
+  obtenez-vous un message d’erreur lors de l’installation d’une librairie de epiverse-trace ?
   </h3>
 </button>
-<div id="collapseSpoiler1" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler1" aria-labelledby="headingSpoiler1">
+<div id="collapseSpoiler1" class="accordion-collapse collapse" aria-labelledby="headingSpoiler1" data-bs-parent="#accordionSpoiler1">
 <div class="accordion-body">
-<p>Si vous obtenez un message d’erreur lors de l’installation de
-{simulist} essayez ce code alternatif :</p>
+<p>Si vous rencontrez des difficultés pour installer
+<code>{tracetheme}</code>, essayer d’utiliser le code suivant.</p>
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># for simulist</span></span>
-<span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"simulist"</span>, repos <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="st">"https://epiverse-trace.r-universe.dev"</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># for tracetheme</span></span>
-<span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"tracetheme"</span>, repos <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="st">"https://epiverse-trace.r-universe.dev"</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"tracetheme"</span>, repos <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="st">"https://epiverse-trace.r-universe.dev"</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
 </div>
 </div>
@@ -561,13 +559,13 @@ d’appuyer sur <kbd>Entrez</kbd>.</p>
 <button class="accordion-button spoiler-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpoiler2" aria-expanded="false" aria-controls="collapseSpoiler2">
   <h3 class="accordion-header" id="headingSpoiler2">
   <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div>
-  obtenez-vous un message d’erreur avec un autre paquet ?
+  obtenez-vous un message d’erreur lors de l’installation de d’autres librairies ?
   </h3>
 </button>
-<div id="collapseSpoiler2" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler2" aria-labelledby="headingSpoiler2">
+<div id="collapseSpoiler2" class="accordion-collapse collapse" aria-labelledby="headingSpoiler2" data-bs-parent="#accordionSpoiler2">
 <div class="accordion-body">
-<p>Essayez d’utiliser la fonction de code classique pour installer un
-paquet, par exemple :</p>
+<p>Vous pouvez utiliser la function <code>install.packages()</code> de
+la librairie de base de R.</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -586,12 +584,12 @@ paquet, par exemple :</p>
   Que faire si une erreur persiste ?
   </h3>
 </button>
-<div id="collapseSpoiler3" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler3" aria-labelledby="headingSpoiler3">
+<div id="collapseSpoiler3" class="accordion-collapse collapse" aria-labelledby="headingSpoiler3" data-bs-parent="#accordionSpoiler3">
 <div class="accordion-body">
-<p>Si le mot-clé du message d’erreur contient une chaîne de caractères
-comme <code>Personal access token (PAT)</code> vous devrez peut-être <a href="https://epiverse-trace.github.io/git-rstudio-basics/02-setup.html#set-up-your-github-token" class="external-link">configurer
-votre jeton GitHub</a>.</p>
-<p>Installez d’abord ces paquets R :</p>
+<p>Si le mot-clé du message d’erreur contient ceci:
+<code>Personal access token (PAT)</code>, vous devrez peut-être <a href="https://epiverse-trace.github.io/git-rstudio-basics/02-setup.html#set-up-your-github-token" class="external-link">configurer
+votre token GitHub</a>.</p>
+<p>Installez d’abord ces librairies :</p>
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -605,44 +603,44 @@ votre jeton GitHub</a>.</p>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu">pak</span><span class="op">(</span><span class="va">new</span><span class="op">)</span></span></code></pre>
 </div>
 <p>Ensuite, suivez ces trois étapes pour <a href="https://epiverse-trace.github.io/git-rstudio-basics/02-setup.html#set-up-your-github-token" class="external-link">configurer
-votre jeton GitHub (lisez ce guide étape par étape)</a>:</p>
+votre token GitHub (lisez ce guide étape par étape)</a>:</p>
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Generate a token</span></span>
+<code class="sourceCode R"><span><span class="co"># creer un token</span></span>
 <span><span class="fu">usethis</span><span class="fu">::</span><span class="fu">create_github_token</span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Configure your token </span></span>
+<span><span class="co"># configurer votre token </span></span>
 <span><span class="fu">gitcreds</span><span class="fu">::</span><span class="fu">gitcreds_set</span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Get a situational report</span></span>
+<span><span class="co"># obtenir un rapport de votre situation</span></span>
 <span><span class="fu">usethis</span><span class="fu">::</span><span class="fu">git_sitrep</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
-<p>Réessayez d’installer {epiparameter}:</p>
+<p>Puis Réessayez d’installer {tracetheme} par example:</p>
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="kw">require</span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span><span class="op">)</span> <span class="fu">install.packages</span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"epiverse-trace/epiparameter"</span><span class="op">)</span></span></code></pre>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"epiverse-trace/tracetheme"</span><span class="op">)</span></span></code></pre>
 </div>
 <p>Si l’erreur persiste, <a href="#your-questions">contactez-nous</a>!</p>
 </div>
 </div>
 </div>
 </div>
-<p>Vous devez mettre à jour <strong>tous les paquets</strong>
-nécessaires au tutoriel, même si vous les avez installés relativement
-récemment. Les nouvelles versions apportent des améliorations et
-d’importantes corrections de bogues.</p>
+<p>Vous devez mettre à jour <strong>toutes les librairies</strong>
+nécessaires à ce tutoriel, même si vous les avez installés récemment.
+Les nouvelles versions contiennent des améliorations et d’importantes
+corrections de bugs.</p>
 <p>Lorsque l’installation est terminée, vous pouvez essayer de charger
-les paquets en collant le code suivant dans la console :</p>
+les packages en copiant et collant le code suivant dans la console :</p>
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># for episodes on read, clean, validate and visualize linelist</span></span>
+<code class="sourceCode R"><span><span class="co"># pour les episodes on lire, nettoyer, valider and visualiser les donnnees</span></span>
 <span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">readepi</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">cleanepi</span><span class="op">)</span></span>
@@ -659,8 +657,8 @@ les paquets en collant le code suivant dans la console :</p>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">tidyverse</span><span class="op">)</span></span></code></pre>
 </div>
 <p>Si vous ne voyez PAS d’erreur comme
-<code>there is no package called '...'</code> vous êtes prêt à partir !
-Si c’est le cas, <a href="#your-questions">contactez-nous</a>!</p>
+<code>there is no package called '...'</code> vous êtes prêt à commencer
+! Si c’est le cas, <a href="#your-questions">contactez-nous</a>!</p>
 </div>
 <div class="section level3">
 <h3 id="créez-un-projet-et-un-dossier-rstudio">3. Créez un projet et un dossier RStudio<a class="anchor" aria-label="anchor" href="#cr%C3%A9ez-un-projet-et-un-dossier-rstudio"></a></h3>
@@ -678,19 +676,19 @@ cette procédure <a href="https://docs.posit.co/ide/user/ide/get-started/#hello-
 pratique sur “Hello RStudio Projects”</a> pour créer un nouveau projet
 dans un nouveau répertoire.</li>
 <li>
-<strong>Créez</strong> l’entreprise <code>data/</code> dans le
-projet RStudio ou dans le répertoire correspondant. Utilisez l’option
-<code>data/</code> pour <strong>enregistrer</strong> les ensembles de
-données à télécharger.</li>
+<strong>Créez</strong> le dossier <code>data/</code> dans le projet
+RStudio. <strong>Sauvegarder</strong> l’ensemble de données à
+télécharger dans ce dossier <code>data/</code>.</li>
 </ul><p>Le répertoire d’un projet RStudio nommé par exemple
 <code>training</code> devrait ressembler à ceci :</p>
 <pre><code>training/
 |__ data/
 |__ training.Rproj</code></pre>
-<p><strong>Projets RStudio</strong> vous permet d’utiliser <em>fichier
-relatif</em> relatifs par rapport à l’élément <code>R</code> projet, ce
-qui rend votre code plus portable et moins sujet aux erreurs. Évite
-d’utiliser <code>setwd()</code> avec <em>chemins absolus</em> comme
+<p><strong>Projets RStudio</strong> vous permet d’utiliser <em>des
+chemin d’accès relatifs</em> par rapport au répertoire contenant le
+projet. Ce qui rend votre code plus portable et moins sujet aux erreurs.
+Évite d’utiliser <code>setwd()</code> avec des <em>chemins absolus</em>
+comme
 <code>"C:/Users/MyName/WeirdPath/training/data/file.csv"</code>.</p>
 </div>
 </div>
@@ -700,7 +698,7 @@ d’utiliser <code>setwd()</code> avec <em>chemins absolus</em> comme
 <h3 id="créez-un-compte-github">4. Créez un compte GitHub<a class="anchor" aria-label="anchor" href="#cr%C3%A9ez-un-compte-github"></a></h3>
 <p>Nous pouvons utiliser <a href="https://github.com" class="external-link">GitHub</a> comme
 plateforme de collaboration pour communiquer sur les problèmes liés aux
-paquets et s’engager dans des projets de développement. <a href="https://github.com/orgs/epiverse-trace/discussions" class="external-link">discussions au
+librairies et s’engager dans des <a href="https://github.com/orgs/epiverse-trace/discussions" class="external-link">discussions au
 sein de la communauté</a>.</p>
 <div id="suivez-toutes-ces-étapes" class="callout checklist">
 <div class="callout-square">
@@ -709,25 +707,23 @@ sein de la communauté</a>.</p>
 <div id="suivez-toutes-ces-étapes" class="callout-inner">
 <h3 class="callout-title">Suivez toutes ces étapes</h3>
 <div class="callout-content">
-<ol style="list-style-type: decimal"><li>Allez à l’adresse suivante <a href="https://github.com" class="external-link uri">https://github.com</a> et suivez le lien “S’inscrire” en
+<ol style="list-style-type: decimal"><li>Allez dans <a href="https://github.com" class="external-link uri">https://github.com</a> et suivez le lien “S’inscrire” en
 haut à droite de la fenêtre.</li>
 <li>Suivez les instructions pour créer un compte.</li>
 <li>Vérifiez votre adresse électronique auprès de GitHub.</li>
-</ol><p>&lt;Configurez l’authentification multi-facteurs (voir
-ci-dessous).</p>
+</ol></div>
 </div>
 </div>
 </div>
-</div>
-</section><section><h2 class="section-heading" id="jeux-de-données">Jeux de données<a class="anchor" aria-label="anchor" href="#jeux-de-donn%C3%A9es"></a></h2>
+</section><section><h2 class="section-heading" id="les-jeux-de-données">Les jeux de données<a class="anchor" aria-label="anchor" href="#les-jeux-de-donn%C3%A9es"></a></h2>
 <hr class="half-width"><div class="section level3">
 <h3 id="téléchargez-les-données">Téléchargez les données<a class="anchor" aria-label="anchor" href="#t%C3%A9l%C3%A9chargez-les-donn%C3%A9es"></a></h3>
 <p>Nous téléchargerons les données directement à partir de R au cours du
 tutoriel. Cependant, si vous vous attendez à des problèmes de réseau, il
 peut être préférable de télécharger les données à l’avance et de les
 stocker sur votre machine.</p>
-<p>Les fichiers de données pour le tutoriel peuvent être téléchargés
-manuellement ici :</p>
+<p>Les fichiers contenant les données pour le tutoriel peuvent être
+téléchargés manuellement à partir d’ici :</p>
 <ul><li><a href="https://epiverse-trace.github.io/tutorials-early/data/ebola_cases_2.csv" class="external-link uri">https://epiverse-trace.github.io/tutorials-early/data/ebola_cases_2.csv</a></li>
 <li><a href="https://epiverse-trace.github.io/tutorials-early/data/Marburg.zip" class="external-link uri">https://epiverse-trace.github.io/tutorials-early/data/Marburg.zip</a></li>
 <li><a href="https://epiverse-trace.github.io/tutorials-early/data/simulated_ebola_2.csv" class="external-link uri">https://epiverse-trace.github.io/tutorials-early/data/simulated_ebola_2.csv</a></li>
@@ -735,9 +731,9 @@ manuellement ici :</p>
 <li><a href="https://epiverse-trace.github.io/tutorials-early/data/linelist-date_of_birth.csv" class="external-link uri">https://epiverse-trace.github.io/tutorials-early/data/linelist-date_of_birth.csv</a></li>
 </ul></div>
 </section><section><h2 class="section-heading" id="vos-questions">Vos questions<a class="anchor" aria-label="anchor" href="#vos-questions"></a></h2>
-<hr class="half-width"><p>Si vous avez besoin d’aide pour installer le logiciel ou si vous avez
-d’autres questions concernant ce tutoriel, veuillez envoyer un courriel
-à l’adresse suivante <a href="mailto:andree.valle-campos@lshtm.ac.uk">andree.valle-campos@lshtm.ac.uk</a></p>
+<hr class="half-width"><p>Si vous avez besoin d’aide pour installer les logiciels et les
+librairies ou si vous avez d’autres questions concernant ce tutoriel,
+veuillez envoyer un courriel à l’adresse suivante <a href="mailto:andree.valle-campos@lshtm.ac.uk">andree.valle-campos@lshtm.ac.uk</a></p>
 <!--
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
@@ -790,9 +786,9 @@ any links that you are not going to use.
   "creativeWorkStatus": "active",
   "url": "https://epiverse-trace.github.io/tutorials-early/instructor/index.html",
   "identifier": "https://epiverse-trace.github.io/tutorials-early/instructor/index.html",
-  "dateCreated": "2025-08-28",
-  "dateModified": "2025-08-28",
-  "datePublished": "2025-08-28"
+  "dateCreated": "2025-08-29",
+  "dateModified": "2025-08-29",
+  "datePublished": "2025-08-29"
 }
 
   </script><script>
