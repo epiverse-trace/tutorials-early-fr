@@ -476,13 +476,14 @@ vous utilisez régulièrement.</p>
 <p>Certains paquets nécessitent un ensemble d’outils complémentaires
 pour être compilés. Ouvrez RStudio et <strong>copiez-collez</strong> le
 bloc de code suivant dans la <a href="https://docs.posit.co/ide/user/ide/guide/code/console.html" class="external-link">fenêtre
-de console</a>, puis appuyez sur <kbd>Entrée</kbd> (Windows et Linux) ou
-<kbd>Retour</kbd> (MacOS) pour exécuter la commande :</p>
+de console</a>, puis appuyez sur <kbd>Enter</kbd> (Windows et Linux) ou
+<kbd>Return</kbd> (MacOS) pour exécuter la commande :</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode r" tabindex="0"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(« pkgbuild »)) <span class="fu">install.packages</span>(« pkgbuild »)</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>pkgbuild<span class="sc">::</span><span class="fu">check_build_tools</span>(<span class="at">debug =</span> <span class="cn">TRUE</span>)</span></code></pre>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="kw">require</span><span class="op">(</span><span class="st">"pkgbuild"</span><span class="op">)</span><span class="op">)</span> <span class="fu">install.packages</span><span class="op">(</span><span class="st">"pkgbuild"</span><span class="op">)</span></span>
+<span><span class="fu">pkgbuild</span><span class="fu">::</span><span class="fu">check_build_tools</span><span class="op">(</span>debug <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre>
 </div>
 <p>Nous attendons un message similaire à celui ci-dessous :</p>
 <div class="codewrapper">
@@ -501,10 +502,26 @@ effet.</li>
 </ol><p>Si l’installation automatique <strong>ne fonctionne pas</strong>,
 vous pouvez les installer manuellement en fonction de votre système
 d’exploitation.</p>
+<div class="tabs">
+<nav><div id="nav-tab-1" class="nav nav-tabs" role="tablist">
+<button class="nav-link active" id="nav-tab-1-1" data-bs-toggle="tab" data-bs-target="#nav-tabpanel-1-1" type="button" role="tab" aria-controls="nav-tabpanel-1-1" aria-selected="true">
+  <h3 class="tab-header" id="nav-tab-heading-1-1">
+  Windows
+  </h3>
+</button>
+<button class="nav-link" id="nav-tab-1-2" data-bs-toggle="tab" data-bs-target="#nav-tabpanel-1-2" type="button" role="tab" aria-controls="nav-tabpanel-1-2" aria-selected="false">
+  <h3 class="tab-header" id="nav-tab-heading-1-2">
+  Mac
+  </h3>
+</button>
+<button class="nav-link" id="nav-tab-1-3" data-bs-toggle="tab" data-bs-target="#nav-tabpanel-1-3" type="button" role="tab" aria-controls="nav-tabpanel-1-3" aria-selected="false">
+  <h3 class="tab-header" id="nav-tab-heading-1-3">
+  Linux
+  </h3>
+</button>
 </div>
-<div class="onglet">
-<div class="section level3">
-<h3 id="windows">Windows<a class="anchor" aria-label="anchor" href="#windows"></a></h3>
+</nav><div id="nav-tabContent-1" class="tab-content">
+<div id="nav-tabpanel-1-1" class="tab-pane show active" aria-labelledby="nav-tab-1-1" role="tabpanel">
 <p>Les utilisateurs Windows auront besoin d’une installation
 fonctionnelle de <code>Rtools</code> afin de compiler le paquet à partir
 du code source.<br><code>Rtools</code> n’est pas un paquet R, mais un logiciel que vous
@@ -517,8 +534,7 @@ Installez-le en conservant les sélections par défaut.</li>
 <li>Fermez et rouvrez RStudio afin qu’il puisse reconnaître la nouvelle
 installation.</li>
 </ul></div>
-<div class="section level3">
-<h3 id="mac">Mac<a class="anchor" aria-label="anchor" href="#mac"></a></h3>
+<div id="nav-tabpanel-1-2" class="tab-pane" aria-labelledby="nav-tab-1-2" role="tabpanel">
 <p>Les utilisateurs Mac doivent suivre deux étapes supplémentaires,
 comme indiqué dans ce <a href="https://github.com/stan-dev/rstan/wiki/Configuring-C---Toolchain-for-Mac" class="external-link">guide
 de configuration de la chaîne d’outils C pour Mac</a> :</p>
@@ -526,11 +542,11 @@ de configuration de la chaîne d’outils C pour Mac</a> :</p>
 pour configurer la chaîne d’outils C++</li>
 <li>Activez certaines optimisations du compilateur.</li>
 </ul></div>
-<div class="section level3">
-<h3 id="linux">Linux<a class="anchor" aria-label="anchor" href="#linux"></a></h3>
+<div id="nav-tabpanel-1-3" class="tab-pane" aria-labelledby="nav-tab-1-3" role="tabpanel">
 <p>Les utilisateurs Linux doivent suivre des instructions spécifiques à
 leur distribution. Vous les trouverez dans ce <a href="https://github.com/stan-dev/rstan/wiki/Configuring-C-Toolchain-for-Linux" class="external-link">guide
 de configuration de la chaîne d’outils C pour Linux</a>.</p>
+</div>
 </div>
 </div>
 <div id="vérification-de-lenvironnement" class="callout">
@@ -552,6 +568,7 @@ Cloud</a>).<br></li>
 <li>Demandez à votre <strong>administrateur système</strong> d’installer
 les logiciels requis pour vous.</li>
 </ul></div>
+</div>
 </div>
 </div>
 <div class="section level3">
