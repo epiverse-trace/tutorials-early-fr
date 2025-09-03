@@ -1,284 +1,279 @@
 ---
-title: 'Aggregate and visualize'
+title: Agréger et visualiser les données épidémiologiques
 teaching: 20
 exercises: 10
 ---
 
-:::::::::::::::::::::::::::::::::::::: questions 
+:::::::::::::::::::::::::::::::::::::: questions
 
-- How to aggregate and summarise case data? 
-- How to visualize aggregated data?
-- What is distribution of cases in time, place, gender, age?
+- Comment agréger et résumer les données épidémiologiques ?
+- Comment visualiser les données agrégées ?
+- Quelle est la répartition des cas dans le temps, l'espace, en fonction du sexe, l'âge, etc ?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Simulate synthetic outbreak data
-- Convert indivdual linelist data to incidence over time
-- Create epidemic curves from incidence data
+- Simuler des données synthétiques sur les épidémies
+- Convertir un tableau de données des cas individuels (linelist) en tableau d'incidence des cas au cours du temps
+- Créer des courbes épidémiques à partir de données d'incidence
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Introduction
 
-In an analytic pipeline, exploratory data analysis (EDA) is an important step before formal modelling. EDA helps 
-determine relationships between variables and summarize their main characteristics, often by means of data visualization. 
+Dans un pipeline d'analyse de données, l'analyse exploratoire des données (AED) est une étape importante avant la modélisation mathématique. L'AED aide à de déterminer les relations entre les variables et de résumer leurs principales caractéristiques, souvent en visualisant les données.
 
-This episode focuses on EDA of outbreak data using R packages. 
-A key aspect of EDA in epidemic analysis is 'person, place and time'. It is useful to identify how observed events - such as confirmed cases, hospitalizations, deaths, and recoveries - change over time, and how these vary across different locations and demographic factors, including gender, age, and more.
+Dans cet épisode, nous allons explorer les techniques d'analyse exploratoire des données épidémiologiques en utilisant des librairies de `R`.
 
-Let's start by loading the package `{incidence2}` to aggregate linelist data according to specific characteristics, and visualize the resulting epidemic curves (epicurves) that plot the number of new events (i.e. incidence) over time.
- We'll use `{simulist}` to simulate some outbreak data to analyse,  and `{tracetheme}` for figure formatting.
- We'll use the pipe `%>%` to connect some of their functions, including others from the packages `{dplyr}` and 
- `{ggplot2}`, so let's also call to the tidyverse package:
+L'un des aspects clés de l'analyse des données épidémiologiques est la notion de "*personne, lieu et temps*". Il est important d'identifier comment les événements observés - tels que les nombres de cas confirmés, d'hospitalisations, de décès et de guérisons - évoluent au cours du temps et comment ils varient en fonction des différents localités et facteurs démographiques, notamment le sexe, l'âge, etc.
 
-```{r,eval=TRUE,message=FALSE,warning=FALSE}
-# Load packages
-library(incidence2) # For aggregating and visualising
-library(simulist) # For simulating linelist data
-library(tracetheme) # For formatting figures
-library(tidyverse) # For {dplyr} and {ggplot2} functions and the pipe %>%
+Commençons par charger la librairie `{simulist}` pour simuler des données épidémiologiques à analyser. Nous utiliserons ensuite la librairie `{incidence2}` permettant d'agréger un tableau des données individuelles en fonction de caractéristiques spécifiques et de visualiser les courbes épidémiques (épicourbes) qui en résultent. Le tableau de données agrégées obtenu représente le nombre de nouveaux événements (c'est-à-dire l'incidence des cas au fil du temps). Pour le formatage des figures, nous utiliserons la librairie `{tracetheme}`. Nous utiliserons l'opérateur pipe (`%>%`) pour connecter certaines de leurs fonctions, y compris celles des packages `{dplyr}` et `{ggplot2}`, ferons donc faire appel à la librairie {tidyverse}.
+
+```{r, eval=TRUE, message=FALSE, warning=FALSE}
+# Charger les librairies
+library(incidence2) # Pour aggréger et visualiser les données
+library(simulist) # Pour simuler les données
+library(tracetheme) # Pour le formattage des graphes
+library(tidyverse) # Pour les fonctions des librairies {dplyr},  {ggplot2} et {magrittr} (pour l'opérateur %>%)
 ```
 
 ::::::::::::::::::: checklist
 
-### The double-colon
+### L'opérateur double deux-points (`::`)
 
-The double-colon `::` in R lets you call a specific function from a package without loading the entire package into the current environment. 
+L'opérateur `::` de R permet d'accéder aux fonctions ou aux objets d'un package spécifique sans attacher l'intégralité du package (sans faire appel à la function`libray()`). Il offre plusieurs avantages, notamment :
 
-For example, `dplyr::filter(data, condition)` uses `filter()` from the `{dplyr}` package.
-This help us remember package functions and avoid namespace conflicts.
+* Indiquer explicitement le package d'origine d'une fonction, réduisant ainsi les ambiguïtés et les conflits potentiels lorsque plusieurs packages possèdent des fonctions portant le même nom.
+* Permettre d'appeler une fonction depuis un package sans charger l'intégralité du package avec `library()`.
+
+Par exemple, la commande `dplyr::filter(data, condition)` signifie que nous appelons la fonction `filter()` depuis la librairie `{dplyr}`.
 
 :::::::::::::::::::
 
- 
-## Synthetic outbreak data
+## Données synthétiques sur les épidémies
 
-To illustrate the process of conducting EDA on outbreak data, we will generate a line list 
-for a hypothetical disease outbreak utilizing the `{simulist}` package. `{simulist}` generates simulation data for outbreak according to a given configuration. 
-Its minimal configuration can generate a linelist, as shown in the below code chunk:
+Pour illustrer le processus d'analyse exploratoire des données épidémiologiques, nous allons générer un tableau de données d'une épidémie hypothétique à l'aide de la librairie `{simulist}`. `{simulist}` génère des données simulées pour une épidémie selon la configuration définie.
+Sa configuration par défaut permet de générer un tableau de données individuelles comme le montre le morceau de code ci-dessous.
+
+Pour rappelle, vous pouvez désormais utiliser la librairie {readepi} pour importer vos données portant sur les cas individuels á partir des systèmes de gestion de base de données relationnelles, de DHIS2 et SORMAS.
 
 ```{r}
-# Simulate linelist data for an outbreak with size between 1000 and 1500
-set.seed(1) # Set seed for reproducibility
-sim_data <- simulist::sim_linelist(outbreak_size = c(1000, 1500)) %>%
-  dplyr::as_tibble() # for a simple data frame output
+# initialiser le générateur de nombres aléatoires pour la reproducibilité
+set.seed(1)
 
-# Display the simulated dataset
+# simuler un tableau de données pour une épidémie de la taille de 1000 à 1500 cas
+sim_data <- simulist::sim_linelist(outbreak_size = c(1000, 1500)) %>%
+  dplyr::as_tibble()
+
+# Voir un aperçu des donnees simulees
 sim_data
 ```
 
-This linelist dataset has entries on individual-level simulated events during the outbreak.
+Ce tableau de données contient des enregistements simulés concernant des individus répertoriés lors d'une épidémie.
 
 ::::::::::::::::::: spoiler
 
-## Additional Resources on Outbreak Data
+## Ressources supplémentaires concernant les données relatives aux épidémies
 
-The above is the default configuration of `{simulist}`, so includes a number of assumptions about the transmissibility and severity of the pathogen. If you want to know more about `sim_linelist()` and other functionalities
-check the [documentation website](https://epiverse-trace.github.io/simulist/).
+Ce qui précède est la configuration par défaut de `{simulist}`. Elle suppose un certain nombre d'hypothèses sur la transmissibilité et la gravité de l'agent pathogène. Si vous souhaitez en savoir plus sur la fonction `simulist::sim_linelist()` et les autres fonctions de cette librairie,
+consultez le [site avec la documentation](https://epiverse-trace.github.io/simulist/).
 
-You can also find data sets from real emergencies from the past at the [`{outbreaks}` R package](https://www.reconverse.org/outbreaks/).
+Vous pouvez également télécharger des jeux de données épidémiologiques réelles concernant des épidémies antérieures dans la librairie [`{outbreaks}`](https://www.reconverse.org/outbreaks/) de R.
 
 :::::::::::::::::::
 
+## Agrégation des données
 
-
-## Aggregating
-
-Often we want to analyse and visualise the number of events that occur on a particular day or week, rather than focusing on individual cases. This requires grouping linelist 
-data into incidence data. The [incidence2]((https://www.reconverse.org/incidence2/articles/incidence2.html){.external target="_blank"}) 
-package offers a useful function called `incidence2::incidence()` for grouping case data, usually based around dated events 
-and/or other characteristics. The code chunk provided below demonstrates the creation of an `<incidence2>` class object from the 
-simulated  Ebola `linelist` data based on the date of onset.
+Nous voudrons généralement analyser et visualiser le nombre de cas enregistrés en un jour ou une semaine, plutôt que de nous concentrer sur chaque cas individuel. Pour ce faire, il est nécessaire de regrouper le tableau des données individuelles en tableau de données d'incidence. La fonction `incidence2::incidence()` de la librairie [{incidence2}] (([https://www.reconverse.org/incidence2/articles/incidence2.html) permet de regrouper les données individuelles, généralement en fonction d'événements datés
+et/ou d'autres caractéristiques.
+Le morceau de code fourni ci-dessous montre la procédure de création d'un objet de la classe `incidence2` qui contiendra le nombre agrégé de cas à partir de la date d'apparition de leurs symptômes en utilisant le tableau de données d'Ebola simulé.
 
 ```{r}
-# Create an incidence object by aggregating case data based on the date of onset
+# creer un objet de classe incidence en agregeant le nombre de cas en fonction de la date d'apparition des symptomes
 daily_incidence <- incidence2::incidence(
   sim_data,
   date_index = "date_onset",
-  interval = "day" # Aggregate by daily intervals
+  interval = "day" # Aggreger les données de façon journalière
 )
 
-# View the incidence data
+# Voir un aperçu des données d'incidence
 daily_incidence
 ```
-With the `{incidence2}` package, you can specify the desired interval (e.g. day, week) and categorize cases by one or 
-more factors. Below is a code snippet demonstrating weekly cases grouped by the date of onset, sex, and type of case.
+
+La librairie `{incidence2}` vous permet de varier l'intervalle de temps à utiliser lorsque vous agrégez vos données (par exemple, les données peuvent être agrégées de façon journalière, hebdomadaire, mensuelle, etc). Elle permet également de classer les cas selon un ou plusieurs facteurs. L'exemple ci-dessous est un extrait de code calculant le nombre hebdomadaire de cas  regroupés selon la date d'apparition des symptômes, le sexe et le type de cas.
 
 ```{r}
-# Group incidence data by week, accounting for sex and case type
+# calculer l'incidence hebdomadaire des cas regroupés selon le sexe et le type de cas
 weekly_incidence <- incidence2::incidence(
   sim_data,
   date_index = "date_onset",
-  interval = "week", # Aggregate by weekly intervals
-  groups = c("sex", "case_type") # Group by sex and case type
+  interval = "week", # obtenir le nombre hebdomadaire de cas
+  groups = c("sex", "case_type") # regrouper le nombre hebdomadaire de cas en fonction du sexe et du type de cas
 )
 
-# View the incidence data
+# voir un aperçu de l'incidence hebdomadaire des cas
 weekly_incidence
 ```
 
 ::::::::::::::::::::::::::::::::::::: callout
-## Dates Completion  
-When cases are grouped by different factors, it's possible that the events involving these groups may have different date ranges in the 
-resulting `incidence2` object. The `incidence2` package provides a function called `complete_dates()` to ensure that an
- incidence object has the same range of dates for each group. By default, missing counts for a particular group will be filled with 0 for that date.
- 
-This functionality is also available as an argument within `incidence2::incidence()` adding `complete_dates = TRUE`.
+
+## Compléter les dates manquantes
+
+Lorsque les cas sont regroupés en fonction de différents facteurs, il est possible que les événements impliquant ces groupes se produisent à des dates différentes dans l'objet de type `incidence2` qui en résulte. La fonction `incidence2::complete_dates()` permet de insérer les dates manquantes pour chaque groupe de l'objet de la classe incidence. Par défaut, le nombre de cas de ces groupes sera représenté par 0 pour cette date (où aucun membre de ces groupe n'avait été enregistré).
+Cette fonctionnalité peut également être activées durant l'appel à la fonction `incidence2::incidence()` en donnant la valeur `TRUE` à l'argument `complete_dates`.
 
 ```{r}
-# Create an incidence object grouped by sex, aggregating daily
+# creer un objet de la classe incidence contenant l'incidence journalière du nombre de cas, groupé par sexe
 daily_incidence_2 <- incidence2::incidence(
   sim_data,
   date_index = "date_onset",
   groups = "sex",
-  interval = "day", # Aggregate by daily intervals
-  complete_dates = TRUE # Complete missing dates in the incidence object
+  interval = "day", # Agreger par interval journalier
+  complete_dates = TRUE # Completer les dates manquantes dans l'objet de la classe incidence
+)
+
+# voir un aperçu de l'incidence journaliere des cas
+daily_incidence_2
+```
+
+```{r, echo=FALSE, eval=FALSE}
+weekly_incidence_complete <- incidence2::complete_dates(
+  x = weekly_incidence,
+  expand = TRUE, # etendre l'objet pour tenir compte des dates manquantes
+  fill = 0L,     # representer le nombre de cas par 0 dans les lignes contenant les dates qui ont ete ajoutees
+  # by = 1L,       # calculer l'incidence journaliere
+  allow_POSIXct = FALSE # s'assurer que les dates n'aient pas le format POSIXct
 )
 ```
 
-```{r,echo=FALSE,eval=FALSE}
-daily_incidence_2_complete <- incidence2::complete_dates(
-  x = daily_incidence_2,
-  expand = TRUE, # Expand to fill in missing dates
-  fill = 0L,     # Fill missing values with 0
-  by = 1L,       # Fill by daily intervals
-  allow_POSIXct = FALSE # Ensure that dates are not in POSIXct format
-)
-```
+::::::::::::::::::::::::::::::::::::::::::::::::
 
+::::::::::::::::::::::::::::::::::::: challenge
+
+## Défi 1 : Pouvez-vous le faire ?
+
+- **Tâche** : calculer l'incidence **bihebdomadaire** des cas dans le tableau de donnèes `sim_data` en fonction de leur date d'admission et de leur revenu. Sauvegarder le résultat dans un objet appelé `biweekly_incidence`.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+## Visualisation
 
-::::::::::::::::::::::::::::::::::::: challenge 
-
-## Challenge 1: Can you do it?
- - **Task**: Aggregate `sim_data` linelist based on admission date and case outcome in __biweekly__
-  intervals, and save the results in an object called `biweekly_incidence`.
-
-::::::::::::::::::::::::::::::::::::::::::::::::
-
-## Visualization
-
-The `incidence2` object can be visualized using the `plot()` function from the base R package. 
-The resulting graph is referred to as an epidemic curve, or epi-curve for short. The following code 
-snippets generate epi-curves for the `daily_incidence` and `weekly_incidence` incidence objects mentioned above.
+Les object de la classe `incidence2` peuvent être visualisés à l'aide de la fonction `plot()` de la librairie de base de R.
+Le graphe qui en résulte est appelé courbe épidémique, ou épi-courbe. Le code ci-dessous génère des épi-courbes pour lee objets `daily_incidence` et `weekly_incidence` créés ci-dessus.
 
 ```{r}
-# Plot daily incidence data
+# visualiser l'incidence journaliere
 base::plot(daily_incidence) +
   ggplot2::labs(
-    x = "Time (in days)", # x-axis label
-    y = "Dialy cases" # y-axis label
+    x = "Time (in days)",
+    y = "Dialy cases"
   ) +
-  tracetheme::theme_trace() # Apply the custom trace theme
-``` 
-
+  tracetheme::theme_trace() # appliquer le theme personnalise de epiverse
+```
 
 ```{r}
-# Plot weekly incidence data
+# visualiser l'incidence hebdomadaire
 base::plot(weekly_incidence) +
   ggplot2::labs(
-    x = "Time (in weeks)", # x-axis label
-    y = "weekly cases" # y-axis label
+    x = "Time (in weeks)",
+    y = "weekly cases" #
   ) +
-  tracetheme::theme_trace() # Apply the custom trace theme
-``` 
+  tracetheme::theme_trace()
+```
 
 :::::::::::::::::::::::: callout
 
-#### Easy aesthetics
+#### Esthétique simple
 
-We invite you to skim the `{incidence2}` package ["Get started" vignette](https://www.reconverse.org/incidence2/articles/incidence2.html). Find how you can use arguments within `plot()` to provide aesthetics to your incidence2 class objects.
+Nous vous invitons à parcourir la [Vignette](https://www.reconverse.org/incidence2/articles/incidence2.html) de la librairie `{incidence2}`. Découvrez comment vous pouvez utiliser les arguments de la fonction `plot()` pour donner de l'esthétique lors de la visualisation de vos objets de la classe incidence2.
 
 ```{r}
 base::plot(weekly_incidence, fill = "sex")
 ```
 
-Some of them include `show_cases = TRUE`, `angle = 45`, and `n_breaks = 5`. Feel free to give them a try.
+Vous y trouverez entre autre argument: `show_cases = TRUE`, `angle = 45` et `n_breaks = 5`. Essayer de les utiliser pour voir comment ils changent l'apparence du graphe qui en découle.
 
 ::::::::::::::::::::::::
 
-::::::::::::::::::::::::::::::::::::: challenge 
+::::::::::::::::::::::::::::::::::::: challenge
 
-## Challenge 2: Can you do it?
- - **Task**: Visualize `biweekly_incidence` object.
+## Défi 2 : Pouvez-vous le faire ?
+
+- **Tâche** visualiser l'objet `biweekly_incidence`.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-## Curve of cumulative cases
+## Courbe du nombre cumulé de cas 
 
-The cumulative number of cases can be calculated using the `cumulate()` function from an `incidence2` object and visualized, as in the example below.
+Le nombre cumulé de cas peut être calculé à l'aide de la fonction `incidence2::cumulate()` à partir d'un objet de la classe `incidence2` et peut être visualisé de la même façon que dans les exemples précédents.
 
 ```{r}
-# Calculate cumulative incidence
+# calculer l'incidence cumulée
 cum_df <- incidence2::cumulate(daily_incidence)
 
-# Plot cumulative incidence data using ggplot2
+# visualiser l'incidence cumulée avec {ggplot2}
 base::plot(cum_df) +
   ggplot2::labs(
-    x = "Time (in days)", # x-axis label
-    y = "weekly cases" # y-axis label
+    x = "Time (in days)",
+    y = "weekly cases" #
   ) +
-  tracetheme::theme_trace() # Apply the custom trace theme
+  tracetheme::theme_trace()
 ```
 
-Note that this function preserves grouping, i.e., if the `incidence2` object contains groups, it will accumulate the cases accordingly.
+Notez que cette fonction préserve le regroupement, c'est-à-dire que si l'objet de la classe`incidence2` contient des groupes, elle accumulera les cas en conséquence.
 
+::::::::::::::::::::::::::::::::::::: challenge
 
-::::::::::::::::::::::::::::::::::::: challenge 
+## Défi 3 : Pouvez-vous le faire ?
 
-## Challenge 3: Can you do it?
- - **Task**: Visulaize the cumulatie cases from `biweekly_incidence` object.
+- **Tâche** visuliser le nombre cumulé de cas de l'objet `biweekly_incidence`.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-##  Peak estimation
+## Estimation la date du pic de l'épidémie
 
-You can estimate the peak -- the time with the highest number of recorded cases-- using the `estimate_peak()` function from the {incidence2} package. 
-This function employs a bootstrapping method to determine the peak time (i.e. by resampling dates with replacement, resulting in a distribution of estimated peak times).
+Vous pouvez estimer le pic - le moment où le nombre de cas enregistrés est le plus élevé - à l'aide de la fonction `incidence2::estimate_peak()` de la librairie {incidence2}.
+Cette fonction utilise une méthode de bootstrap pour déterminer la période de pic du nombre de cas (c'est-à-dire en rééchantillonnant les dates avec remplacement, ce qui donne une distribution des périodes de pic estimés).
 
 ```{r}
-# Estimate the peak of the daily incidence data
+# estimer le pic de l'incidence journaliere
 peak <- incidence2::estimate_peak(
   daily_incidence,
-  n = 100,         # Number of simulations for the peak estimation
-  alpha = 0.05,    # Significance level for the confidence interval
-  first_only = TRUE, # Return only the first peak found
-  progress = FALSE  # Disable progress messages
+  n = 100,         # nombre de simulations à utiliser pour trouver le pic
+  alpha = 0.05,    # niveau de significativite pour l'interval de confiance
+  first_only = TRUE, # retourner la valeur du premier pic trouvé
+  progress = FALSE  # deactiver les messages montrant les progres durant le calcul
 )
 
-# Display the estimated peak
+# voir un aperçu du pic estime
 print(peak)
 ```
-This example demonstrates how to estimate the peak time using the `estimate_peak()` function at $95%$ 
-confidence interval and using 100 bootstrap samples. 
 
-::::::::::::::::::::::::::::::::::::: challenge 
+Cet exemple montre comment estimer la date du pic de l'épidémie (date à laquelle le nombre de cas le plus élevé a été répertorié) à l'aide de la fonction `incidence2::estimate_peak()` avec un interval de confiance de $95%$ et en ré-échantillonnant 100 fois.
 
-## Challenge 4: Can you do it?
- - **Task**: Estimate the peak time from `biweekly_incidence` object.
+::::::::::::::::::::::::::::::::::::: challenge
+
+## Défi 4 : Pouvez-vous le faire ?
+
+- **Tâche** Estimation la période du pic de l'épidémie à partir de l'objet `biweekly_incidence`.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+## Visualisation avec ggplot2
 
-## Visualization with ggplot2
-
-
-`{incidence2}` produces basic plots for epicurves, but additional work is required to create well-annotated graphs. However, using the `{ggplot2}` package, you can generate more sophisticated and epicurves with more flexibility in annotation.
-`{ggplot2}` is a comprehensive package with many functionalities. However, we will focus on three key elements for producing epicurves: histogram plots, scaling date axes and their labels, and general plot theme annotation.
-The example below demonstrates how to configure these three elements for a simple `{incidence2}` object.
+`{incidence2}` permet d'obtenir des graphes basiques pour les épi-courbes, mais un travail supplémentaire est nécessaire pour créer des graphiques bien annotés. Cependant, en urilisant la librairie `{ggplot2}` vous pouvez générer des graphes plus sophistiqués et des épi-courbes avec plus de flexibilité dans leur annotation.
+`{ggplot2}` est un package qui offre de nombreuses fonctionnalités. Cependant, nous nous focaliserons sur trois éléments clés pour la production d'épi-courbes : les histogrammes, la mise à l'échelle des axes des variables de type Date et de leurs étiquettes, et l'annotation générale du thème du graphe.
+L'exemple ci-dessous montre comment configurer ces trois éléments pour un simple objet de la classe `{incidence2}`.
 
 ```{r}
-# Define date breaks for the x-axis
+# definir comment les dates seront reparties sur l'axe des x
 breaks <- seq.Date(
   from = min(as.Date(daily_incidence$date_index, na.rm = TRUE)),
   to = max(as.Date(daily_incidence$date_index, na.rm = TRUE)),
-  by = 20 # every 20 days
+  by = 20 # chaque 20 jours
 )
 
-# Create the plot
+# creation de l'histogramme
 ggplot2::ggplot(data = daily_incidence) +
   geom_histogram(
     mapping = aes(
@@ -286,85 +281,84 @@ ggplot2::ggplot(data = daily_incidence) +
       y = count
     ),
     stat = "identity",
-    color = "blue", # bar border color
-    fill = "lightblue", # bar fill color
-    width = 1 # bar width
+    color = "blue", # couleur de bordure de l'histogramme
+    fill = "lightblue", # couleur de remplissage des bars de l'histogramme
+    width = 1 # l'epaisseur des bars de l'histogramme
   ) +
-  theme_minimal() + # apply a minimal theme for clean visuals
+  theme_minimal() + # utiliser un theme minimal
   theme(
     plot.title = element_text(face = "bold",
-                              hjust = 0.5), # center and bold title
-    plot.subtitle = element_text(hjust = 0.5), # center subtitle
+                              hjust = 0.5), # centrer le titre du gaphe en gras
+    plot.subtitle = element_text(hjust = 0.5), # centrer le sous-titre
     plot.caption = element_text(face = "italic",
-                                hjust = 0), # italicized caption
-    axis.title = element_text(face = "bold"), # bold axis titles
-    axis.text.x = element_text(angle = 45, vjust = 0.5) # rotated x-axis text
+                                hjust = 0), # mettre la legende en italique
+    axis.title = element_text(face = "bold"), # mettre les noms des axes en gras
+    axis.text.x = element_text(angle = 45, vjust = 0.5) # tourner le titre des axes de 45 degres
   ) +
   labs(
-    x = "Date", # x-axis label
-    y = "Number of cases", # y-axis label
-    title = "Daily Outbreak Cases", # plot title
-    subtitle = "Epidemiological Data for the Outbreak", # plot subtitle
-    caption = "Data Source: Simulated Data" # plot caption
+    x = "Date", # definir le nom de l'axe des x
+    y = "Number of cases", # definir le nom de l'axe des y
+    title = "Daily Outbreak Cases", # definir le titre du graphe
+    subtitle = "Epidemiological Data for the Outbreak", # definir le sous-titre du graphe
+    caption = "Data Source: Simulated Data" # definir la legende du graphe
   ) +
   scale_x_date(
-    breaks = breaks, # set custom breaks on the x-axis
-    labels = scales::label_date_short() # shortened date labels
+    breaks = breaks, # definir les limites personnalisee pour l'axe des x
+    labels = scales::label_date_short() # ecourter les noms des limites dans l'axe des x
   )
 ```
 
-Use the `group` option in the mapping function to visualize an epicurve with different groups. If there is more than one grouping factor, use the `facet_wrap()` option, as demonstrated in the example below:
+Utilisez l'option `group` dans la fonction mapping pour visualiser une courbe épidémique avec différents groupes. Si plusieurs variables ont été utilisées pour regrouper les cas, utilisez l'option `facet_wrap()` comme le montre l'exemple ci-dessous :
 
 ```{r}
-# Plot daily incidence by sex with facets
+# visualiser l'incidence journaliere avec des facettes liées au sexe
 ggplot2::ggplot(data = daily_incidence_2) +
   geom_histogram(
     mapping = aes(
       x = as.Date(date_index),
       y = count,
-      group = sex,
+      group = sex, # grouper les bars par sexe
       fill = sex
     ),
     stat = "identity"
   ) +
-  theme_minimal() + # apply minimal theme
+  theme_minimal() +
   theme(
-    plot.title = element_text(face = "bold",
-                              hjust = 0.5), # bold and center the title
-    plot.subtitle = element_text(hjust = 0.5), # center the subtitle
-    plot.caption = element_text(face = "italic", hjust = 0), # italic caption
-    axis.title = element_text(face = "bold"), # bold axis labels
-    axis.text.x = element_text(angle = 45,
-                               vjust = 0.5) # rotate x-axis text for readability
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    plot.subtitle = element_text(hjust = 0.5),
+    plot.caption = element_text(face = "italic", hjust = 0),
+    axis.title = element_text(face = "bold"),
+    axis.text.x = element_text(angle = 45, vjust = 0.5)
   ) +
   labs(
-    x = "Date", # x-axis label
-    y = "Number of cases", # y-axis label
-    title = "Daily Outbreak Cases by Sex", # plot title
-    subtitle = "Incidence of Cases Grouped by Sex", # plot subtitle
-    caption = "Data Source: Simulated Data" # caption for additional context
+    x = "Date",
+    y = "Number of cases",
+    title = "Daily Outbreak Cases by Sex",
+    subtitle = "Incidence of Cases Grouped by Sex",
+    caption = "Data Source: Simulated Data"
   ) +
-  facet_wrap(~sex) + # create separate panels by sex
+  facet_wrap(~sex) + # creer un panel separant les groupes de la variable sexe
   scale_x_date(
-    breaks = breaks, # set custom date breaks
-    labels = scales::label_date_short() # short date format for x-axis labels
+    breaks = breaks,
+    labels = scales::label_date_short()
   ) +
   scale_fill_manual(values = c("lightblue",
-                               "lightpink")) # custom fill colors for sex
+                               "lightpink")) # couleur personnalisees pour variable sexe
 ```
 
+::::::::::::::::::::::::::::::::::::: challenge
 
-::::::::::::::::::::::::::::::::::::: challenge 
+## Défi 5 : Pouvez-vous le faire ?
 
-## Challenge 5: Can you do it?
- - **Task**: Produce an annotated figure for biweekly_incidence using `{ggplot2}` package.
-
-::::::::::::::::::::::::::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::: keypoints 
-
-- Use `{simulist}` package to generate synthetic outbreak data
-- Use `{incidence2}` package to aggregate case data based on a date event, and produce epidemic curves. 
-- Use `{ggplot2}` package to produce better annotated epicurves. 
+- **Tâche**: produire une figure annotée pour l'objet contenant les incidences bihebdomadiares `biweekly_incidence` à l'aide de la librairie `{ggplot2}`.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::: keypoints
+
+- Utiliser `{simulist}` pour générer des données épidémiologiques synthétiques
+- Utilisez `{incidence2}` pour agréger les données épidémiologiques en fonction d'événements datés et d'autres variables pour produire des épi-courbes.
+- Utilisez `{ggplot2}` pour produire des courbes épidémiques mieux annotées.
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+
