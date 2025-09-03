@@ -38,9 +38,9 @@ Cet épisode est consacré à l'étiquettage et la validation des données épid
 
 ```{r, eval=TRUE, message=FALSE, warning=FALSE}
 # charger packages
-library(tidyverse) # pour acceder aux fonctions de la librairie {dplyr} et à l'opérateur pipe %>% du package {magrittr}
-library(rio) # pour importer les donnees
-library(here) # pour faciliter le referencement des fichiers
+library(tidyverse)
+library(rio)
+library(here)
 library(linelist) # pour etiquetter et valider les donnees
 ```
 
@@ -62,7 +62,8 @@ Il s'agit d'importer les données dans l'environnement de travail et de visualis
 
 ```{r, eval=FALSE}
 # lecture des données
-# supposons que le chemin d'acces au fichier est: data/simulated_ebola_2.csv, alors:
+# supposons que le chemin d'acces au fichier
+# est: data/simulated_ebola_2.csv, alors:
 cleaned_data <- rio::import(
   here::here("data", "cleaned_data.csv")
 ) %>%
