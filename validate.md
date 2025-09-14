@@ -21,7 +21,7 @@ exercises: 2
 
 Pour cet épisode vous devez :
 
-- Télécharger le fichier [données_nettoyées.csv](https://epiverse-trace.github.io/tutorials-early/data/cleaned_data.csv)
+- Télécharger le fichier [cleaned_data.csv](https://epiverse-trace.github.io/tutorials-early/data/cleaned_data.csv)
 - Et le sauvegarder dans le dossier `data/`.
 
 :::::::::::::::::::::
