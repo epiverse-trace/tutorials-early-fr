@@ -114,7 +114,7 @@ Un tel scénario se produit généralement lorsque l'institution qui effectue l'
 
 ::::::::::::::::::::::::
 
-## réation d'un objet de type linelist et étiquetage des colonnes
+## Création d'un objet de type linelist et étiquetage des colonnes
 
 Après avoir importé et nettoyé les données, nous pouvons les convertir en un objet de la classe `linelist` à l'aide de la fonction `make_linelist()` de la librairie `{linelist}` comme dans l'exemple suivant ci-dessous.
 
@@ -323,7 +323,7 @@ Le message `d'Erreur` nous informe que pour **valider** notre objet linelist, no
 
 ::::::::::::::::::::::::: challenge
 
-En dehors de l'étiquetage et de la validation de l'ojet linelist, de quelle autre étape avons-nous besoin lors de la construction de l'objet ?
+En dehors de l'étiquetage et de la validation de l'objet linelist, de quelle autre étape avons-nous besoin lors de la construction de l'objet ?
 
 :::::::::::::::::::::::::: solution
 
