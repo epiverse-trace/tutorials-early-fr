@@ -317,7 +317,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Lecture des données épidémiologiques</h1>
-        <p>Dernière mise à jour le 2025-08-29 |
+        <p>Dernière mise à jour le 2025-11-11 |
 
         <a href="https://github.com/epiverse-trace/tutorials-early-fr/edit/main/episodes/read-cases.Rmd" class="external-link">Modifier cette page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -549,7 +549,7 @@ importez-le dans votre environnement de travail.</p>
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint1" aria-expanded="false" aria-controls="collapseHint1">
   <h4 class="accordion-header" id="headingHint1"> Donner un indice </h4>
 </button>
-<div id="collapseHint1" class="accordion-collapse collapse" aria-labelledby="headingHint1" data-bs-parent="#accordionHint1">
+<div id="collapseHint1" class="accordion-collapse collapse" data-bs-parent="#accordionHint1" aria-labelledby="headingHint1">
 <div class="accordion-body">
 <p>Vous pouvez consulter la <a href="https://gesistsa.github.io/rio/#supported-file-formats" class="external-link">liste
 complète des formats de fichiers pris en charge</a> sur le site web de
@@ -571,7 +571,7 @@ fonction ci-dessous :</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Montrer la solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -732,7 +732,7 @@ données à travers une requête SQL ou une liste de paramètres.</p>
 <h3 class="code-label">SORTIE<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code># Source:     SQL [?? x 6]
-# Database:   mysql 5.6.36-log [@mysql-rfam-public.ebi.ac.uk:/Rfam]
+# Database:   mysql 8.0.32-24 [@mysql-rfam-public.ebi.ac.uk:/Rfam]
 # Ordered by: desc(author_id)
   author_id name           last_name    initials orcid                 synonyms
       &lt;int&gt; &lt;chr&gt;          &lt;chr&gt;        &lt;chr&gt;    &lt;chr&gt;                 &lt;chr&gt;
@@ -816,7 +816,7 @@ l’utilisation de <a href="https://dplyr.tidyverse.org" class="external-link">d
 <button class="accordion-button hint-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHint2" aria-expanded="false" aria-controls="collapseHint2">
   <h4 class="accordion-header" id="headingHint2"> Donner un indice </h4>
 </button>
-<div id="collapseHint2" class="accordion-collapse collapse" aria-labelledby="headingHint2" data-bs-parent="#accordionHint2">
+<div id="collapseHint2" class="accordion-collapse collapse" data-bs-parent="#accordionHint2" aria-labelledby="headingHint2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -870,16 +870,16 @@ LEFT JOIN `family_author`
 <pre class="output" tabindex="0"><code># A tibble: 4,874 × 4
    author_id.x name         author_id.y rfam_acc
          &lt;int&gt; &lt;chr&gt;              &lt;int&gt; &lt;chr&gt;
- 1          44 Osuch I               44 RF01571
- 2           2 Argasinska J           2 RF02588
- 3           2 Argasinska J           2 RF02587
- 4           2 Argasinska J           2 RF02586
- 5           2 Argasinska J           2 RF02585
- 6           2 Argasinska J           2 RF02549
- 7           8 Boursnell C            8 RF02002
- 8          56 Weinberg Z            56 RF01741
- 9          39 Moxon SJ              39 RF00496
-10          39 Moxon SJ              39 RF00469
+ 1           1 Ames T                 1 RF01831
+ 2           2 Argasinska J           2 RF02554
+ 3           2 Argasinska J           2 RF02555
+ 4           2 Argasinska J           2 RF02722
+ 5           2 Argasinska J           2 RF02720
+ 6           2 Argasinska J           2 RF02719
+ 7           2 Argasinska J           2 RF02721
+ 8           2 Argasinska J           2 RF02670
+ 9           2 Argasinska J           2 RF02718
+10           2 Argasinska J           2 RF02668
 # ℹ 4,864 more rows</code></pre>
 </div>
 </div>
@@ -1085,15 +1085,14 @@ obtenir la liste des noms de maladies à travers la fonction
 <div class="codewrapper">
 <h3 class="code-label">SORTIE<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code># A tibble: 6 × 16
+<pre class="output" tabindex="0"><code># A tibble: 5 × 16
   case_id    person_id date_onset date_admission case_origin case_status outcome
   &lt;chr&gt;      &lt;chr&gt;     &lt;date&gt;     &lt;date&gt;         &lt;chr&gt;       &lt;chr&gt;       &lt;chr&gt;
-1 QFC5QI-GC… XNQZBX-W… NA         NA             IN_COUNTRY  NOT_CLASSI… NO_OUT…
-2 UOZL3G-4M… UGBWTB-B… 2025-05-27 NA             IN_COUNTRY  SUSPECT     NO_OUT…
-3 SRO72L-LY… UOAAIQ-Z… NA         NA             IN_COUNTRY  NOT_CLASSI… NO_OUT…
-4 XV7RQ3-ZY… XP2SJX-W… 2025-07-03 NA             IN_COUNTRY  NOT_CLASSI… NO_OUT…
-5 SMUIMI-ZI… TMWNQS-O… NA         NA             IN_COUNTRY  CONFIRMED   NO_OUT…
-6 SZ3GHH-RJ… V2XMXK-K… NA         NA             IN_COUNTRY  NOT_CLASSI… NO_OUT…
+1 SZ3GHH-RJ… V2XMXK-K… NA         NA             IN_COUNTRY  NOT_CLASSI… NO_OUT…
+2 W5C6VE-OH… SBWO4N-3… NA         NA             IN_COUNTRY  NOT_CLASSI… NO_OUT…
+3 XBXV3A-TI… QXQ5VA-2… 2025-09-14 2025-09-14     IN_COUNTRY  CONFIRMED   NO_OUT…
+4 SSTIVB-VS… ROTW6C-D… 2025-10-14 NA             IN_COUNTRY  NO_CASE     NO_OUT…
+5 T6ZLGJ-MU… WON54L-6… NA         NA             IN_COUNTRY  NOT_CLASSI… NO_OUT…
 # ℹ 9 more variables: sex &lt;chr&gt;, date_of_birth &lt;chr&gt;, country &lt;chr&gt;,
 #   city &lt;chr&gt;, latitude &lt;chr&gt;, longitude &lt;chr&gt;, contact_id &lt;chr&gt;,
 #   date_last_contact &lt;date&gt;, Ct_values &lt;chr&gt;</code></pre>
@@ -1176,8 +1175,8 @@ any links that you are not going to use.
   "url": "https://epiverse-trace.github.io/tutorials-early-fr/instructor/read-cases.html",
   "identifier": "https://epiverse-trace.github.io/tutorials-early-fr/instructor/read-cases.html",
   "dateCreated": "2025-09-15",
-  "dateModified": "2025-08-29",
-  "datePublished": "2025-11-04"
+  "dateModified": "2025-11-11",
+  "datePublished": "2025-11-11"
 }
 
   </script><script>
