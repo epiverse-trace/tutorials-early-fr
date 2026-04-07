@@ -403,16 +403,27 @@ dhis2_login <- readepi::login(
 )
 ```
 
-``` output
-✔ Logged in successfully!
+``` error
+Error in `httr2::req_perform()` at epiverse-trace-readepi-94d0ce8/R/read_dhis2-helpers.R:52:3:
+! HTTP 500 Internal Server Error.
 ```
 
 ``` r
 # obtenir les noms et identifiants des programmes
 programs <- readepi::get_programs(login = dhis2_login)
+```
 
+``` error
+Error in login[["url"]]: object of type 'closure' is not subsettable
+```
+
+``` r
 # obtenir les noms et identifiants des unites organisationnelles
 org_units <- get_organisation_units(login = dhis2_login)
+```
+
+``` error
+Error in login[["url"]]: object of type 'closure' is not subsettable
 ```
 
 
@@ -423,38 +434,31 @@ data <- readepi::read_dhis2(
   org_unit = "GcLhRNAFppR",
   program = "E5IUQuHg3Mg"
 )
+```
 
+``` error
+Error in readepi::read_dhis2(login = dhis2_login, org_unit = "GcLhRNAFppR", : Assertion on 'login' failed: Must inherit from class 'httr2_response', but has class 'function'.
+```
+
+``` r
 # importer les donnees a partir de DHIS2 en utilisant les noms
 data <- readepi::read_dhis2(
   login = dhis2_login,
   org_unit = "Keneba",
   program = "Child Registration & Treatment "
 )
+```
 
+``` error
+Error in readepi::read_dhis2(login = dhis2_login, org_unit = "Keneba", : Assertion on 'login' failed: Must inherit from class 'httr2_response', but has class 'function'.
+```
+
+``` r
 tibble::as_tibble(data)
 ```
 
-``` output
-# A tibble: 1,116 × 69
-   event   tracked_entity org_unit ` SMC-CR Scan QR Code` SMC-CR Did the child…¹
-   <chr>   <chr>          <chr>    <chr>                  <chr>                 
- 1 bgSDQb… yv7MOkGD23q    Keneba   SMC23-0510989          1                     
- 2 y4MKmP… nibnZ8h0Nse    Keneba   SMC2021-018089         1                     
- 3 yK7VG3… nibnZ8h0Nse    Keneba   SMC2021-018089         1                     
- 4 EmNflz… nibnZ8h0Nse    Keneba   SMC2021-018089         1                     
- 5 UF96ms… nibnZ8h0Nse    Keneba   SMC2021-018089         1                     
- 6 guQTwc… FomREQ2it4n    Keneba   SMC23-0510012          1                     
- 7 jbkRkL… FomREQ2it4n    Keneba   SMC23-0510012          1                     
- 8 AEeype… FomREQ2it4n    Keneba   SMC23-0510012          1                     
- 9 R30SPs… E5oAWGcdFT4    Keneba   koika-smc-22897        1                     
-10 nr03Qy… E5oAWGcdFT4    Keneba   koika-smc-22897        1                     
-# ℹ 1,106 more rows
-# ℹ abbreviated name: ¹​`SMC-CR Did the child  previously received a card?`
-# ℹ 64 more variables: `SMC-CR Child First Name1` <chr>,
-#   `SMC-CR Child Last Name` <chr>, `SMC-CR Date of Birth` <chr>,
-#   `SMC-CR Select Age Category  ` <chr>, `SMC-CR Child gender1` <chr>,
-#   `SMC-CR Mother/Person responsible full name` <chr>,
-#   `SMC-CR Mother/Person responsible phone number1` <chr>, …
+``` error
+Error in as.data.frame.default(value, stringsAsFactors = FALSE): cannot coerce class '"function"' to a data.frame
 ```
 
 Il est important de savoir que toutes les unités organisationnelles (structures sanitaires) ne sont pas enregistrées pour un programme spécifique. Pour connaître les unités organisationnelles qui exécutent un programme particulier, utilisez la fonction `get_program_org_units()` comme illustré dans l'exemple ci-dessous.
@@ -467,25 +471,18 @@ target_org_units <- readepi::get_program_org_units(
   program = "E5IUQuHg3Mg",
   org_units = org_units
 )
+```
 
+``` error
+Error in login[["url"]]: object of type 'closure' is not subsettable
+```
+
+``` r
 tibble::as_tibble(target_org_units)
 ```
 
-``` output
-# A tibble: 26 × 3
-   org_unit_ids levels            org_unit_names
-   <chr>        <chr>             <chr>         
- 1 UrLrbEiWk3J  Town/Village_name Sare Sibo     
- 2 wlVsFVeHSTx  Town/Village_name Jawo Kunda    
- 3 kp0ZYUEqJE8  Town/Village_name Chewal        
- 4 Wr3htgGxhBv  Town/Village_name Madinayel     
- 5 psyHoqeN2Tw  Town/Village_name Bolibanna     
- 6 MGBYonFM4y3  Town/Village_name Sare Mala     
- 7 GcLhRNAFppR  Town/Village_name Keneba        
- 8 y1Z3KuvQyhI  Town/Village_name Brikama       
- 9 W3vH9yBUSei  Town/Village_name Gidda         
-10 ISbNWYieHY8  Town/Village_name Song Kunda    
-# ℹ 16 more rows
+``` error
+Error: object 'target_org_units' not found
 ```
 
 
